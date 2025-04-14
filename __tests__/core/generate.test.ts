@@ -30,7 +30,7 @@ describeAllImplementations((implementation) => {
         allowArbitraryExtensions: false,
       });
 
-      expect(fs.writeFileSync).toHaveBeenCalledTimes(6);
+      expect(fs.writeFileSync).toHaveBeenCalledTimes(8);
     });
   });
 });

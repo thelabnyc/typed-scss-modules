@@ -53,7 +53,7 @@ describeAllImplementations((implementation) => {
       });
 
       expect(alerts.error).not.toHaveBeenCalled();
-      expect(fs.writeFileSync).toHaveBeenCalledTimes(9);
+      expect(fs.writeFileSync).toHaveBeenCalledTimes(11);
 
       const expectedDirname = slash(path.join(__dirname, "dummy-styles"));
 
@@ -94,7 +94,7 @@ describeAllImplementations((implementation) => {
       });
 
       expect(alerts.error).not.toHaveBeenCalled();
-      expect(fs.writeFileSync).toHaveBeenCalledTimes(7);
+      expect(fs.writeFileSync).toHaveBeenCalledTimes(9);
 
       const expectedDirname = slash(path.join(__dirname, "dummy-styles"));
 
@@ -132,7 +132,7 @@ describeAllImplementations((implementation) => {
       });
 
       expect(alerts.error).not.toHaveBeenCalled();
-      expect(fs.writeFileSync).toHaveBeenCalledTimes(9);
+      expect(fs.writeFileSync).toHaveBeenCalledTimes(11);
 
       // Transform the calls into a more readable format for the snapshot.
       const contents = writeFileSyncSpy.mock.calls
@@ -162,8 +162,8 @@ describeAllImplementations((implementation) => {
       });
 
       expect(alerts.error).not.toHaveBeenCalled();
-      expect(fs.writeFileSync).toHaveBeenCalledTimes(9);
-      expect(fs.mkdirSync).toHaveBeenCalledTimes(9);
+      expect(fs.writeFileSync).toHaveBeenCalledTimes(11);
+      expect(fs.mkdirSync).toHaveBeenCalledTimes(11);
 
       // Transform the calls into a more readable format for the snapshot.
       const contents = writeFileSyncSpy.mock.calls

@@ -1,0 +1,6 @@
+@import "./style"; // using `./`
+@import "../dummy-styles/nested-styles/style"; // using `../`
+
+.my-custom-class {
+  color: green;
+}

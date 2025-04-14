@@ -4,6 +4,13 @@ exports[`node-sass implementation main outputs the correct files when outputFold
 [
   {
     "contents": "export declare const myCustomClass: string;
+export declare const nestedStyles: string;
+export declare const someClass: string;
+",
+    "path": "../__generated__/__tests__/dummy-styles/absolute.scss.d.ts",
+  },
+  {
+    "contents": "export declare const myCustomClass: string;
 export declare const nestedAnother: string;
 export declare const nestedClass: string;
 export declare const nestedStyles: string;
@@ -61,6 +68,13 @@ export declare const logo: string;
     "path": "../__generated__/__tests__/dummy-styles/nested-styles/style.scss.d.ts",
   },
   {
+    "contents": "export declare const myCustomClass: string;
+export declare const nestedStyles: string;
+export declare const someClass: string;
+",
+    "path": "../__generated__/__tests__/dummy-styles/relative.scss.d.ts",
+  },
+  {
     "contents": "export declare const someClass: string;
 ",
     "path": "../__generated__/__tests__/dummy-styles/style.scss.d.ts",
@@ -70,6 +84,21 @@ export declare const logo: string;
 
 exports[`node-sass implementation main reads options from the configuration file 1`] = `
 [
+  {
+    "contents": "export type Styles = {
+  myCustomClass: string;
+  nestedStyles: string;
+  someClass: string;
+};
+
+export type ClassNames = keyof Styles;
+
+declare const styles: Styles;
+
+export default styles;
+",
+    "path": "dummy-styles/absolute.scss.d.ts",
+  },
   {
     "contents": "export type Styles = {
   myCustomClass: string;
@@ -191,6 +220,21 @@ declare const styles: Styles;
 export default styles;
 ",
     "path": "dummy-styles/nested-styles/style.scss.d.ts",
+  },
+  {
+    "contents": "export type Styles = {
+  myCustomClass: string;
+  nestedStyles: string;
+  someClass: string;
+};
+
+export type ClassNames = keyof Styles;
+
+declare const styles: Styles;
+
+export default styles;
+",
+    "path": "dummy-styles/relative.scss.d.ts",
   },
   {
     "contents": "export type Styles = {
@@ -212,6 +256,13 @@ exports[`sass implementation main outputs the correct files when outputFolder is
 [
   {
     "contents": "export declare const myCustomClass: string;
+export declare const nestedStyles: string;
+export declare const someClass: string;
+",
+    "path": "../__generated__/__tests__/dummy-styles/absolute.scss.d.ts",
+  },
+  {
+    "contents": "export declare const myCustomClass: string;
 export declare const nestedAnother: string;
 export declare const nestedClass: string;
 export declare const nestedStyles: string;
@@ -269,6 +320,13 @@ export declare const logo: string;
     "path": "../__generated__/__tests__/dummy-styles/nested-styles/style.scss.d.ts",
   },
   {
+    "contents": "export declare const myCustomClass: string;
+export declare const nestedStyles: string;
+export declare const someClass: string;
+",
+    "path": "../__generated__/__tests__/dummy-styles/relative.scss.d.ts",
+  },
+  {
     "contents": "export declare const someClass: string;
 ",
     "path": "../__generated__/__tests__/dummy-styles/style.scss.d.ts",
@@ -278,6 +336,21 @@ export declare const logo: string;
 
 exports[`sass implementation main reads options from the configuration file 1`] = `
 [
+  {
+    "contents": "export type Styles = {
+  myCustomClass: string;
+  nestedStyles: string;
+  someClass: string;
+};
+
+export type ClassNames = keyof Styles;
+
+declare const styles: Styles;
+
+export default styles;
+",
+    "path": "dummy-styles/absolute.scss.d.ts",
+  },
   {
     "contents": "export type Styles = {
   myCustomClass: string;
@@ -399,6 +472,21 @@ declare const styles: Styles;
 export default styles;
 ",
     "path": "dummy-styles/nested-styles/style.scss.d.ts",
+  },
+  {
+    "contents": "export type Styles = {
+  myCustomClass: string;
+  nestedStyles: string;
+  someClass: string;
+};
+
+export type ClassNames = keyof Styles;
+
+declare const styles: Styles;
+
+export default styles;
+",
+    "path": "dummy-styles/relative.scss.d.ts",
   },
   {
     "contents": "export type Styles = {
