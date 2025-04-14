@@ -1,32 +1,24 @@
-import { SyncImporter } from "node-sass";
-import { LegacySyncImporter } from "sass";
-
-// Hacky way to merge both dart-sass and node-sass importer definitions.
-type Importer = LegacySyncImporter & SyncImporter;
-
-export { Importer };
+type AliasImporter = (url: string) => string | null;
 
 export interface Aliases {
   [index: string]: string;
 }
 
 interface AliasImporterOptions {
-  aliases: Aliases;
-  aliasPrefixes: Aliases;
+  aliases?: Aliases;
+  aliasPrefixes?: Aliases;
 }
 
 /**
- * Construct a SASS importer to create aliases for imports.
+ * Create a base SASS importer to resolve aliases for imports.
  */
-export const aliasImporter =
-  ({ aliases, aliasPrefixes }: AliasImporterOptions): Importer =>
-  (url: string) => {
-    if (url in aliases) {
-      const file = aliases[url];
-
-      return {
-        file,
-      };
+export const createAliasImporter = ({
+  aliases = {},
+  aliasPrefixes = {},
+}: AliasImporterOptions): AliasImporter => {
+  return (url) => {
+    if (aliases[url] !== undefined) {
+      return aliases[url];
     }
 
     const prefixMatch = Object.keys(aliasPrefixes).find((prefix) =>
@@ -34,38 +26,24 @@ export const aliasImporter =
     );
 
     if (prefixMatch) {
-      return {
-        file: aliasPrefixes[prefixMatch] + url.substr(prefixMatch.length),
-      };
+      return aliasPrefixes[prefixMatch] + url.substr(prefixMatch.length);
     }
 
     return null;
   };
-
-export interface SASSImporterOptions {
-  aliases?: Aliases;
-  aliasPrefixes?: Aliases;
-  importer?: Importer | Importer[];
-}
+};
 
 /**
- * Construct custom SASS importers based on options.
- *
- *  - Given aliases and alias prefix options, add a custom alias importer.
- *  - Given custom SASS importer(s), append to the list of importers.
+ * Simply construct a clear array of custom SASS importers from an ambiguous input.
  */
-export const customImporters = ({
-  aliases = {},
-  aliasPrefixes = {},
-  importer,
-}: SASSImporterOptions): Importer[] => {
-  const importers: Importer[] = [aliasImporter({ aliases, aliasPrefixes })];
-
-  if (typeof importer === "function") {
-    importers.push(importer);
-  } else if (Array.isArray(importer)) {
-    importers.push(...importer);
+export const constructImporters = <I>(importer: I | I[] | undefined): I[] => {
+  if (importer === undefined) {
+    return [];
   }
 
-  return importers;
+  if (!Array.isArray(importer)) {
+    return [importer];
+  }
+
+  return importer;
 };

@@ -1,103 +1,73 @@
-import { SyncContext } from "node-sass";
-import { LegacyImporterThis } from "sass";
-import { aliasImporter, customImporters } from "../../lib/sass/importer";
+import {
+  constructImporters,
+  createAliasImporter,
+} from "../../lib/sass/importer";
 
-// SASS importers receive two other arguments that this package doesn't care about.
-// Fake `this` which the type definitions both define for importers.
-const fakeImporterThis = {} as LegacyImporterThis & SyncContext;
-const fakePrev = "";
-
-describe("#aliasImporter", () => {
+describe("#createAliasImporter", () => {
   it("should create an importer to replace aliases and otherwise return null", () => {
-    const importer = aliasImporter({
+    const aliasImporter = createAliasImporter({
       aliases: { input: "output", "~alias": "node_modules" },
       aliasPrefixes: {},
     });
 
-    expect(importer.call(fakeImporterThis, "input", fakePrev)).toEqual({
-      file: "output",
-    });
-    expect(importer.call(fakeImporterThis, "~alias", fakePrev)).toEqual({
-      file: "node_modules",
-    });
-    expect(importer.call(fakeImporterThis, "output", fakePrev)).toBeNull();
-    expect(
-      importer.call(fakeImporterThis, "input-substring", fakePrev)
-    ).toBeNull();
-    expect(importer.call(fakeImporterThis, "other", fakePrev)).toBeNull();
+    expect(aliasImporter("input")).toBe("output");
+    expect(aliasImporter("~alias")).toBe("node_modules");
+    expect(aliasImporter("output")).toBeNull();
+    expect(aliasImporter("input-substring")).toBeNull();
+    expect(aliasImporter("other")).toBeNull();
   });
 
   it("should create an importer to replace alias prefixes and otherwise return null", () => {
-    const importer = aliasImporter({
+    const aliasImporter = createAliasImporter({
       aliases: {},
       aliasPrefixes: { "~": "node_modules/", abc: "def" },
     });
 
-    expect(importer.call(fakeImporterThis, "abc-123", fakePrev)).toEqual({
-      file: "def-123",
-    });
-    expect(importer.call(fakeImporterThis, "~package", fakePrev)).toEqual({
-      file: "node_modules/package",
-    });
-    expect(importer.call(fakeImporterThis, "output~", fakePrev)).toBeNull();
-    expect(
-      importer.call(fakeImporterThis, "input-substring-abc", fakePrev)
-    ).toBeNull();
-    expect(importer.call(fakeImporterThis, "other", fakePrev)).toBeNull();
-  });
-});
-
-describe("#customImporters", () => {
-  beforeEach(() => {
-    console.log = jest.fn(); // avoid console logs showing up
+    expect(aliasImporter("abc-123")).toBe("def-123");
+    expect(aliasImporter("~package")).toBe("node_modules/package");
+    expect(aliasImporter("output~")).toBeNull();
+    expect(aliasImporter("input-substring-abc")).toBeNull();
+    expect(aliasImporter("other")).toBeNull();
   });
 
-  it("should return only an alias importer by default", () => {
-    const importers = customImporters({
+  it("should create an importer to replace both aliases and alias prefixes and otherwise return null", () => {
+    const aliasImporter = createAliasImporter({
       aliases: { "~alias": "secret/path" },
       aliasPrefixes: { "~": "node_modules/" },
     });
 
-    expect(importers).toHaveLength(1);
+    expect(aliasImporter("~package")).toBe("node_modules/package");
+    expect(aliasImporter("~alias")).toBe("secret/path");
+    expect(aliasImporter("other")).toBeNull();
+  });
+});
 
-    const [aliasImporter] = importers;
-
-    expect(aliasImporter.call(fakeImporterThis, "~package", fakePrev)).toEqual({
-      file: "node_modules/package",
-    });
-    expect(aliasImporter.call(fakeImporterThis, "~alias", fakePrev)).toEqual({
-      file: "secret/path",
-    });
-    expect(aliasImporter.call(fakeImporterThis, "other", fakePrev)).toBeNull();
+describe("#constructImporters", () => {
+  beforeEach(() => {
+    console.log = jest.fn(); // avoid console logs showing up
   });
 
-  it("should add additional importers if passed a function", () => {
+  it("should return an empty array if passed undefined", () => {
+    const importers = constructImporters(undefined);
+
+    expect(importers).toEqual([]);
+  });
+
+  it("should return an array of a single importer if passed a function", () => {
     const importer = jest.fn();
 
-    const importers = customImporters({
-      aliases: {},
-      aliasPrefixes: {},
-      importer,
-    });
+    const importers = constructImporters(importer);
 
-    expect(importers).toHaveLength(2);
-    expect(importers[1]).toEqual(importer);
+    expect(importers).toEqual([importer]);
   });
 
-  it("should add multiple importers if passed an array", () => {
+  it("should return multiple importers if passed an array", () => {
     const importer1 = jest.fn();
     const importer2 = jest.fn();
     const importer3 = jest.fn();
 
-    const importers = customImporters({
-      aliases: {},
-      aliasPrefixes: {},
-      importer: [importer1, importer2, importer3],
-    });
+    const importers = constructImporters([importer1, importer2, importer3]);
 
-    expect(importers).toHaveLength(4);
-    expect(importers[1]).toEqual(importer1);
-    expect(importers[2]).toEqual(importer2);
-    expect(importers[3]).toEqual(importer3);
+    expect(importers).toEqual([importer1, importer2, importer3]);
   });
 });

@@ -1,9 +1,12 @@
 import { SASSOptions } from "../sass";
 import { ExportType, LogLevel, QuoteType } from "../typescript";
 
-type CLIOnlyOptions = Extract<keyof SASSOptions, "importer">;
+type AllKeyOf<T> = T extends unknown ? keyof T : never;
+type SafeOmit<T, K extends AllKeyOf<T>> = Omit<T, K>;
 
-export interface CLIOptions extends Exclude<SASSOptions, CLIOnlyOptions> {
+type ConfigFileOnlyOptionsKeys = "nodeSassImporter" | "sassImporter";
+export interface CLIOptions
+  extends SafeOmit<SASSOptions, ConfigFileOnlyOptionsKeys> {
   banner: string;
   ignore: string[];
   ignoreInitial: boolean;
@@ -19,4 +22,4 @@ export interface CLIOptions extends Exclude<SASSOptions, CLIOnlyOptions> {
   allowArbitraryExtensions: boolean;
 }
 
-export interface ConfigOptions extends CLIOptions, SASSOptions {}
+export type ConfigOptions = CLIOptions & SASSOptions;

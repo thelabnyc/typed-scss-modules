@@ -75,7 +75,9 @@ describe("#mergeOptions", () => {
   });
 
   it("should allow overriding all default options via the config options", () => {
-    const importer = jest.fn();
+    const sassImporter = {
+      findFileUrl: jest.fn(),
+    };
 
     expect(
       mergeOptions(
@@ -95,7 +97,7 @@ describe("#mergeOptions", () => {
           logLevel: "silent",
           banner: "// override",
           outputFolder: "__generated__",
-          importer,
+          sassImporter,
           allowArbitraryExtensions: true,
         }
       )
@@ -114,13 +116,13 @@ describe("#mergeOptions", () => {
       logLevel: "silent",
       banner: "// override",
       outputFolder: "__generated__",
-      importer,
+      sassImporter,
       allowArbitraryExtensions: true,
     });
   });
 
   it("should give precedence to CLI options and still merge config-only options", () => {
-    const importer = jest.fn();
+    const nodeSassImporter = jest.fn();
 
     expect(
       mergeOptions(
@@ -156,7 +158,7 @@ describe("#mergeOptions", () => {
           logLevel: "info",
           banner: "// not override",
           outputFolder: "__generated__",
-          importer,
+          nodeSassImporter,
         }
       )
     ).toEqual({
@@ -174,13 +176,13 @@ describe("#mergeOptions", () => {
       logLevel: "silent",
       banner: "// override",
       outputFolder: "__cli-generated__",
-      importer,
+      nodeSassImporter,
       allowArbitraryExtensions: true,
     });
   });
 
   it("should give ignore undefined CLI options", () => {
-    const importer = jest.fn();
+    const nodeSassImporter = jest.fn();
 
     expect(
       mergeOptions(
@@ -220,7 +222,7 @@ describe("#mergeOptions", () => {
           logLevel: "info",
           banner: "// banner",
           outputFolder: "__generated__",
-          importer,
+          nodeSassImporter,
           allowArbitraryExtensions: false,
         }
       )
@@ -241,7 +243,7 @@ describe("#mergeOptions", () => {
       logLevel: "silent",
       banner: "// banner",
       outputFolder: "__cli-generated__",
-      importer,
+      nodeSassImporter,
       allowArbitraryExtensions: true,
     });
   });
