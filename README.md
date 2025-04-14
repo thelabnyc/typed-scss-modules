@@ -343,7 +343,7 @@ CLI options will take precedence over configuration file options.
 
 In addition to all CLI options, the following are options only available with the configuration file:
 
-### `importer`
+### `importer` <!-- TODO: rewrite this option after finalizing how to handle it -->
 
 - **Type**: `Importer | Importer[]`
 - **Default**: _none_
