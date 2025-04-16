@@ -5,7 +5,8 @@ import {
   snakeCase,
 } from "change-case";
 import fs from "fs";
-import { Implementations, getImplementation } from "../implementations";
+import sass from "sass";
+import { Implementations } from "../implementations";
 import { Aliases, SASSImporterOptions, customImporters } from "./importer";
 import { sourceToClassNames } from "./source-to-class-names";
 
@@ -48,14 +49,11 @@ export const fileToClassNames = async (
     additionalData,
     includePaths = [],
     nameFormat: rawNameFormat,
-    implementation,
     aliases,
     aliasPrefixes,
     importer,
   }: SASSOptions = {} as SASSOptions
 ) => {
-  const { renderSync } = getImplementation(implementation);
-
   const nameFormat = (
     typeof rawNameFormat === "string" ? [rawNameFormat] : rawNameFormat
   ) as NameFormat[];
@@ -67,7 +65,7 @@ export const fileToClassNames = async (
     : [nameFormatDefault];
 
   const data = fs.readFileSync(file).toString();
-  const result = renderSync({
+  const result = sass.renderSync({
     file,
     data: additionalData ? `${additionalData}\n${data}` : data,
     includePaths,
