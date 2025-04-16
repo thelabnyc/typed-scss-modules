@@ -10,7 +10,6 @@ const options: ConfigOptions = {
   exportTypeInterface: "Styles",
   listDifferent: true,
   ignore: [],
-  implementation: "sass",
   quoteType: "single",
   updateStaleOnly: false,
   logLevel: "verbose",

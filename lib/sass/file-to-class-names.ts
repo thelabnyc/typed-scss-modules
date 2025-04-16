@@ -6,7 +6,6 @@ import {
 } from "change-case";
 import fs from "fs";
 import sass from "sass";
-import { Implementations } from "../implementations";
 import { Aliases, SASSImporterOptions, customImporters } from "./importer";
 import { sourceToClassNames } from "./source-to-class-names";
 
@@ -39,7 +38,6 @@ export interface SASSOptions extends SASSImporterOptions {
   additionalData?: string;
   includePaths?: string[];
   nameFormat?: string | string[];
-  implementation: Implementations;
 }
 export const nameFormatDefault: NameFormatWithTransformer = "camel";
 

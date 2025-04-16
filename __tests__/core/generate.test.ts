@@ -20,7 +20,6 @@ describe("generate", () => {
       exportTypeInterface: "Styles",
       listDifferent: false,
       ignore: [],
-      implementation: "sass",
       quoteType: "single",
       updateStaleOnly: false,
       logLevel: "verbose",

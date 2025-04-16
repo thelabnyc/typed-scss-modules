@@ -38,7 +38,6 @@ describe("#mergeOptions", () => {
       mergeOptions(
         {
           nameFormat: ["kebab"],
-          implementation: "sass",
           exportType: "default",
           exportTypeName: "Classes",
           exportTypeInterface: "AllStyles",
@@ -57,7 +56,6 @@ describe("#mergeOptions", () => {
       )
     ).toEqual({
       nameFormat: ["kebab"],
-      implementation: "sass",
       exportType: "default",
       exportTypeName: "Classes",
       exportTypeInterface: "AllStyles",
@@ -82,7 +80,6 @@ describe("#mergeOptions", () => {
         {},
         {
           nameFormat: ["kebab"],
-          implementation: "sass",
           exportType: "default",
           exportTypeName: "Classes",
           exportTypeInterface: "AllStyles",
@@ -101,7 +98,6 @@ describe("#mergeOptions", () => {
       )
     ).toEqual({
       nameFormat: ["kebab"],
-      implementation: "sass",
       exportType: "default",
       exportTypeName: "Classes",
       exportTypeInterface: "AllStyles",
@@ -126,7 +122,6 @@ describe("#mergeOptions", () => {
       mergeOptions(
         {
           nameFormat: ["kebab"],
-          implementation: "sass",
           exportType: "default",
           exportTypeName: "Classes",
           exportTypeInterface: "AllStyles",
@@ -143,7 +138,6 @@ describe("#mergeOptions", () => {
         },
         {
           nameFormat: ["param"],
-          implementation: "node-sass",
           exportType: "named",
           exportTypeName: "Classnames",
           exportTypeInterface: "TheStyles",
@@ -161,7 +155,6 @@ describe("#mergeOptions", () => {
       )
     ).toEqual({
       nameFormat: ["kebab"],
-      implementation: "sass",
       exportType: "default",
       exportTypeName: "Classes",
       exportTypeInterface: "AllStyles",
@@ -188,7 +181,6 @@ describe("#mergeOptions", () => {
           aliases: undefined,
           aliasPrefixes: undefined,
           nameFormat: ["kebab"],
-          implementation: "sass",
           exportType: "default",
           exportTypeName: "Classes",
           exportTypeInterface: "AllStyles",
@@ -207,7 +199,6 @@ describe("#mergeOptions", () => {
           aliases: {},
           aliasPrefixes: {},
           nameFormat: ["param"],
-          implementation: "node-sass",
           exportType: "named",
           exportTypeName: "Classnames",
           exportTypeInterface: "TheStyles",
@@ -228,7 +219,6 @@ describe("#mergeOptions", () => {
       aliases: {},
       aliasPrefixes: {},
       nameFormat: ["kebab"],
-      implementation: "sass",
       exportType: "default",
       exportTypeName: "Classes",
       exportTypeInterface: "AllStyles",

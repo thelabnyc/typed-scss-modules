@@ -21,7 +21,6 @@ describe("fileToClassNames", () => {
         `${__dirname}/../dummy-styles/complex.scss`,
         {
           nameFormat: ["kebab"],
-          implementation: "sass",
         }
       );
 
@@ -39,7 +38,6 @@ describe("fileToClassNames", () => {
         `${__dirname}/../dummy-styles/complex.scss`,
         {
           nameFormat: ["param"],
-          implementation: "sass",
         }
       );
 
@@ -57,7 +55,6 @@ describe("fileToClassNames", () => {
         `${__dirname}/../dummy-styles/complex.scss`,
         {
           nameFormat: ["snake"],
-          implementation: "sass",
         }
       );
 
@@ -75,7 +72,6 @@ describe("fileToClassNames", () => {
         `${__dirname}/../dummy-styles/dashes.scss`,
         {
           nameFormat: ["dashes"],
-          implementation: "sass",
         }
       );
 
@@ -87,7 +83,6 @@ describe("fileToClassNames", () => {
         `${__dirname}/../dummy-styles/dashes.scss`,
         {
           nameFormat: ["none"],
-          implementation: "sass",
         }
       );
 
@@ -99,7 +94,6 @@ describe("fileToClassNames", () => {
         `${__dirname}/../dummy-styles/complex.scss`,
         {
           nameFormat: ["all"],
-          implementation: "sass",
         }
       );
 
@@ -127,7 +121,6 @@ describe("fileToClassNames", () => {
         `${__dirname}/../dummy-styles/complex.scss`,
         {
           nameFormat: ["kebab", "snake"],
-          implementation: "sass",
         }
       );
 
@@ -150,7 +143,6 @@ describe("fileToClassNames", () => {
         `${__dirname}/../dummy-styles/complex.scss`,
         {
           nameFormat: "snake",
-          implementation: "sass",
         }
       );
 
@@ -173,7 +165,6 @@ describe("fileToClassNames", () => {
             "~fancy-import": "complex",
             "~another": "style",
           },
-          implementation: "sass",
         }
       );
 
@@ -200,7 +191,6 @@ describe("fileToClassNames", () => {
           aliasPrefixes: {
             "~": "nested-styles/",
           },
-          implementation: "sass",
         }
       );
 
@@ -220,9 +210,7 @@ describe("fileToClassNames", () => {
     it("converts a file that contains a composes dependency from another file", async () => {
       const result = await fileToClassNames(
         `${__dirname}/../dummy-styles/composes.scss`,
-        {
-          implementation: "sass",
-        }
+        {}
       );
 
       expect(result).toEqual(["composedClass"]);
@@ -234,7 +222,6 @@ describe("fileToClassNames", () => {
       const result = await fileToClassNames(
         `${__dirname}/../dummy-styles/global-variables.scss`,
         {
-          implementation: "sass",
           additionalData: "$global-red: red;",
         }
       );

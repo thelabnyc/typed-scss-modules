@@ -2,7 +2,6 @@ import { bundleRequire } from "bundle-require";
 import JoyCon from "joycon";
 import path from "path";
 import { alerts, CLIOptions, ConfigOptions } from "./core";
-import { getDefaultImplementation } from "./implementations";
 import { nameFormatDefault } from "./sass";
 import {
   bannerTypeDefault,
@@ -66,7 +65,6 @@ export const loadConfig = async (): Promise<
 // Default values for all options that need defaults.
 export const DEFAULT_OPTIONS: CLIOptions = {
   nameFormat: [nameFormatDefault],
-  implementation: getDefaultImplementation(),
   exportType: exportTypeDefault,
   exportTypeName: exportTypeNameDefault,
   exportTypeInterface: exportTypeInterfaceDefault,
