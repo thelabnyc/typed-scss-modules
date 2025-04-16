@@ -1,5 +1,4 @@
 import fs from "fs";
-import { SassError } from "node-sass";
 import path from "path";
 import { fileToClassNames } from "../sass";
 import {
@@ -70,8 +69,10 @@ export const writeFile = async (
     fs.writeFileSync(typesPath, typeDefinition);
     alerts.success(`[GENERATED TYPES] ${typesPath}`);
   } catch (error) {
-    const { message, file, line, column } = error as SassError;
-    const location = file ? ` (${file}[${line}:${column}])` : "";
-    alerts.error(`${message}${location}`);
+    alerts.error(
+      `An error occurred generating type definitions for ${file}:\n${JSON.stringify(
+        error
+      )}`
+    );
   }
 };
