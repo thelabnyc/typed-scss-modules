@@ -81,7 +81,7 @@ export const fileToClassNames = async (
       : (nameFormat as NameFormatWithTransformer[])
     : [nameFormatDefault];
 
-  const { css } = (() => {
+  const { css } = await (async () => {
     const data = fs.readFileSync(file).toString();
     const addedData = additionalData ? `${additionalData}\n${data}` : data;
 
@@ -128,7 +128,7 @@ export const fileToClassNames = async (
     };
 
     if (restOptions.implementation === "sass") {
-      return sass.compileString(addedData, {
+      return (await import("sass")).compileString(addedData, {
         loadPaths: includePaths,
         importers: [
           ...["", ...includePaths].flatMap((includePath) => {
@@ -191,7 +191,7 @@ export const fileToClassNames = async (
           });
       };
 
-      return nodeSass.renderSync({
+      return (await import("node-sass")).renderSync({
         file,
         data: addedData,
         includePaths,
