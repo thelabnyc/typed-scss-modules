@@ -33,9 +33,9 @@
     "clean": "rm -rf ./dist",
     "build": "npm run clean && tsc && chmod +x dist/lib/cli.js",
     "prepare": "npm run build && husky install",
-    "check-types": "tsc --noEmit",
-    "check-formatting": "prettier --check '**/*.{js,json,css,md,scss,tsx,ts}'",
-    "check-linting": "eslint .",
+    "check:lint": "eslint .",
+    "check:types": "tsc --noEmit",
+    "check": "npm run check:lint && npm run check:types",
     "commit": "commit",
     "semantic-release": "semantic-release"
   },
