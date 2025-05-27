@@ -1,4 +1,10 @@
-import { fileToClassNames } from "../../lib/sass";
+import { fileToClassNames } from "../../lib/sass/index.ts";
+
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 describe("fileToClassNames", () => {
   it("converts a file path to an array of class names (default camel cased)", async () => {

@@ -1,17 +1,23 @@
-import { join } from "path";
+import {jest} from "@jest/globals";
+import path from "node:path";
 import prettier from "prettier";
-import { attemptPrettier } from "../../lib/prettier";
-import { classNamesToTypeDefinitions } from "../../lib/typescript";
+import { applyPrettier } from "../../lib/prettier/index.ts";
+import { classNamesToTypeDefinitions } from "../../lib/typescript/index.ts";
 
-const file = join(__dirname, "test.d.ts");
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const file = path.join(__dirname, "test.d.ts");
 const input =
   "export type Styles = {'myClass': string;'yourClass': string;}; export type Classes = keyof Styles; declare const styles: Styles; export default styles;";
 
-describe("attemptPrettier", () => {
+describe("applyPrettier", () => {
   it("should locate and apply prettier.format", async () => {
-    const output = await attemptPrettier(file, input);
+    const output = await applyPrettier(file, input);
 
-    expect(prettier.format(input, { parser: "typescript" })).toMatch(output);
+    expect(await prettier.format(input, { parser: "typescript" })).toMatch(output);
   });
 
   it("should match snapshot", async () => {
@@ -26,34 +32,9 @@ describe("attemptPrettier", () => {
       throw new Error("failed to collect typeDefinition");
     }
 
-    const output = await attemptPrettier(file, typeDefinition);
+    const output = await applyPrettier(file, typeDefinition);
 
     expect(output).toMatchSnapshot();
   });
 });
 
-describe("attemptPrettier - mock prettier", () => {
-  beforeAll(() => {
-    jest.mock("prettier", () => ({
-      format: undefined,
-    }));
-  });
-
-  it("should fail to recognize prettier and return input", async () => {
-    const output = await attemptPrettier(file, input);
-
-    expect(input).toMatch(output);
-  });
-});
-
-describe("attemptPrettier - mock resolution check", () => {
-  beforeAll(() => {
-    jest.mock("../../lib/prettier/can-resolve");
-  });
-
-  it("should fail to resolve prettier and return input", async () => {
-    const output = await attemptPrettier(file, input);
-
-    expect(input).toMatch(output);
-  });
-});

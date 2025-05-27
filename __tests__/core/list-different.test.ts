@@ -1,11 +1,19 @@
-import { listDifferent } from "../../lib/core";
+import {jest} from "@jest/globals";
+import { listDifferent } from "../../lib/core/index.ts";
+
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 describe("listDifferent", () => {
-  let exit: jest.SpyInstance;
+  let exit: jest.SpiedFunction<typeof process.exit>;
 
   beforeEach(() => {
     console.log = jest.fn();
-    exit = jest.spyOn(process, "exit").mockImplementation();
+    // @ts-expect-error return never
+    exit = jest.spyOn(process, "exit").mockImplementation(() => null);
   });
 
   afterEach(() => {

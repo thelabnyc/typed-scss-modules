@@ -1,14 +1,14 @@
-export { LOG_LEVELS, LogLevel, logLevelDefault } from "../core/alerts";
+export { LOG_LEVELS, type LogLevel, logLevelDefault } from "../core/alerts.ts";
 export {
   EXPORT_TYPES,
-  ExportType,
+  type ExportType,
   QUOTE_TYPES,
-  QuoteType,
+  type QuoteType,
   bannerTypeDefault,
   classNamesToTypeDefinitions,
   exportTypeDefault,
   exportTypeInterfaceDefault,
   exportTypeNameDefault,
   quoteTypeDefault,
-} from "./class-names-to-type-definition";
-export { getTypeDefinitionPath } from "./get-type-definition-path";
+} from "./class-names-to-type-definition.ts";
+export { getTypeDefinitionPath } from "./get-type-definition-path.ts";

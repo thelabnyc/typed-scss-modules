@@ -1,5 +1,12 @@
-import fs from "fs";
-import { generate } from "../../lib/core";
+import {jest} from "@jest/globals";
+import fs from "node:fs";
+import { generate } from "../../lib/core/index.ts";
+
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 describe("generate", () => {
   beforeEach(() => {

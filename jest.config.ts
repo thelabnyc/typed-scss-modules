@@ -1,4 +1,11 @@
-export default {
+import type { Config } from 'jest'
+import { createDefaultEsmPreset } from "ts-jest";
+
+const config: Config = {
+  ...createDefaultEsmPreset(),
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1',
+  },
   clearMocks: true,
   testMatch: ["**/__tests__/**/*.test.ts"],
   testPathIgnorePatterns: [
@@ -6,7 +13,6 @@ export default {
     "<rootDir>/node_modules/",
     "(.*).d.ts",
   ],
-  transformIgnorePatterns: [
-    "[/\\\\]node_modules[/\\\\](?!bundle-require).+\\.js$",
-  ],
-};
+}
+
+export default config

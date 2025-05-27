@@ -1,5 +1,6 @@
-import path from "path";
-import { DEFAULT_OPTIONS, loadConfig, mergeOptions } from "../lib/load";
+import {jest} from "@jest/globals";
+import path from "node:path";
+import { DEFAULT_OPTIONS, loadConfig, mergeOptions } from "../lib/load.ts";
 
 const CONFIG_CASES = [
   "js-default-export",
@@ -92,7 +93,7 @@ describe("#mergeOptions", () => {
           logLevel: "silent",
           banner: "// override",
           outputFolder: "__generated__",
-          importer,
+          importer: importer as any,
           allowArbitraryExtensions: true,
         }
       )
@@ -110,7 +111,7 @@ describe("#mergeOptions", () => {
       logLevel: "silent",
       banner: "// override",
       outputFolder: "__generated__",
-      importer,
+      importer: importer as any,
       allowArbitraryExtensions: true,
     });
   });
@@ -150,7 +151,7 @@ describe("#mergeOptions", () => {
           logLevel: "info",
           banner: "// not override",
           outputFolder: "__generated__",
-          importer,
+          importer: importer as any,
         }
       )
     ).toEqual({
@@ -167,7 +168,7 @@ describe("#mergeOptions", () => {
       logLevel: "silent",
       banner: "// override",
       outputFolder: "__cli-generated__",
-      importer,
+      importer: importer as any,
       allowArbitraryExtensions: true,
     });
   });
@@ -211,7 +212,7 @@ describe("#mergeOptions", () => {
           logLevel: "info",
           banner: "// banner",
           outputFolder: "__generated__",
-          importer,
+          importer: importer as any,
           allowArbitraryExtensions: false,
         }
       )
@@ -231,7 +232,7 @@ describe("#mergeOptions", () => {
       logLevel: "silent",
       banner: "// banner",
       outputFolder: "__cli-generated__",
-      importer,
+      importer: importer as any,
       allowArbitraryExtensions: true,
     });
   });

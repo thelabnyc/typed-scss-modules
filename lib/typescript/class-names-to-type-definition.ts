@@ -1,8 +1,8 @@
-import { ClassName } from "lib/sass/file-to-class-names";
-import os from "os";
+import { type ClassName } from "../sass/file-to-class-names.ts";
+import os from "node:os";
 import reserved from "reserved-words";
-import { alerts } from "../core";
-import { attemptPrettier } from "../prettier";
+import { alerts } from "../core/index.ts";
+import { applyPrettier } from "../prettier/index.ts";
 
 export type ExportType = "named" | "default";
 export const EXPORT_TYPES: ExportType[] = ["named", "default"];
@@ -96,7 +96,7 @@ export const classNamesToTypeDefinitions = async (
 
     if (lines.length) {
       const typeDefinition = lines.join(`${os.EOL}`) + `${os.EOL}`;
-      return await attemptPrettier(options.file, typeDefinition);
+      return await applyPrettier(options.file, typeDefinition);
     } else {
       return null;
     }

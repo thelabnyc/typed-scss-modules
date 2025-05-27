@@ -4,12 +4,12 @@ import {
   paramCase,
   snakeCase,
 } from "change-case";
-import fs from "fs";
-import sass from "sass";
-import { Aliases, SASSImporterOptions, customImporters } from "./importer";
-import { sourceToClassNames } from "./source-to-class-names";
+import fs from "node:fs";
+import * as sass from "sass";
+import { type Aliases, type SASSImporterOptions, customImporters } from "./importer.ts";
+import { sourceToClassNames } from "./source-to-class-names.ts";
 
-export { Aliases };
+export { type Aliases };
 export type ClassName = string;
 interface Transformer {
   (className: ClassName): string;

@@ -1,27 +1,12 @@
-import fs from "fs";
-import { fileToClassNames } from "../sass";
+import fs from "node:fs";
+import { fileToClassNames } from "../sass/index.ts";
 import {
   classNamesToTypeDefinitions,
   getTypeDefinitionPath,
-} from "../typescript";
-import { alerts } from "./alerts";
-import { listFilesAndPerformSanityChecks } from "./list-files-and-perform-sanity-checks";
-import { ConfigOptions } from "./types";
-
-export const listDifferent = async (
-  pattern: string,
-  options: ConfigOptions
-): Promise<void> => {
-  const files = listFilesAndPerformSanityChecks(pattern, options);
-
-  // Wait for all the files to be checked.
-  const validChecks = await Promise.all(
-    files.map((file) => checkFile(file, options))
-  );
-  if (validChecks.includes(false)) {
-    process.exit(1);
-  }
-};
+} from "../typescript/index.ts";
+import { alerts } from "./alerts.ts";
+import { listFilesAndPerformSanityChecks } from "./list-files-and-perform-sanity-checks.ts";
+import type { ConfigOptions } from "./types.ts";
 
 export const checkFile = async (
   file: string,
@@ -60,5 +45,20 @@ export const checkFile = async (
       `An error occurred checking ${file}:\n${JSON.stringify(error)}`
     );
     return false;
+  }
+};
+
+export const listDifferent = async (
+  pattern: string,
+  options: ConfigOptions
+): Promise<void> => {
+  const files = listFilesAndPerformSanityChecks(pattern, options);
+
+  // Wait for all the files to be checked.
+  const validChecks = await Promise.all(
+    files.map((file) => checkFile(file, options))
+  );
+  if (validChecks.includes(false)) {
+    process.exit(1);
   }
 };

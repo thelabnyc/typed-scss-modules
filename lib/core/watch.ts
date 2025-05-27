@@ -1,9 +1,9 @@
 import chokidar from "chokidar";
-import { alerts } from "./alerts";
-import { listFilesAndPerformSanityChecks } from "./list-files-and-perform-sanity-checks";
-import { removeSCSSTypeDefinitionFile } from "./remove-file";
-import { ConfigOptions } from "./types";
-import { writeFile } from "./write-file";
+import { alerts } from "./alerts.ts";
+import { listFilesAndPerformSanityChecks } from "./list-files-and-perform-sanity-checks.ts";
+import { removeSCSSTypeDefinitionFile } from "./remove-file.ts";
+import type { ConfigOptions } from "./types.ts";
+import { writeFile } from "./write-file.ts";
 
 /**
  * Watch a file glob and generate the corresponding types.

@@ -1,17 +1,23 @@
-import fs, { PathOrFileDescriptor } from "fs";
-import path from "path";
-import { writeFile } from "../../lib/core";
+import {jest} from "@jest/globals";
+import fs, { PathOrFileDescriptor } from "node:fs";
+import path from "node:path";
+import { writeFile } from "../../lib/core/index.ts";
+
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 describe("writeFile", () => {
   beforeEach(() => {
     // Only mock the write, so the example files can still be read.
-    jest.spyOn(fs, "writeFileSync").mockImplementation();
+    jest.spyOn(fs, "writeFileSync").mockImplementation(() => null);
 
     // Avoid creating new directories while running tests.
-    jest.spyOn(fs, "mkdirSync").mockImplementation();
+    jest.spyOn(fs, "mkdirSync").mockImplementation(() => undefined);
 
     // Test removing existing types.
-    jest.spyOn(fs, "unlinkSync").mockImplementation();
+    jest.spyOn(fs, "unlinkSync").mockImplementation(() => null);
 
     console.log = jest.fn();
   });
@@ -236,6 +242,7 @@ describe("writeFile", () => {
 
       // Mock outdated file contents.
       (fs.readFileSync as jest.Mock).mockImplementation(
+        // @ts-expect-error Mock args
         (
           p: PathOrFileDescriptor,
           opts?: {

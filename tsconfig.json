@@ -1,14 +1,9 @@
 {
+  "extends": "@tsconfig/node20/tsconfig.json",
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
+    "isolatedModules": true,
+    "rewriteRelativeImportExtensions": true,
     "baseUrl": ".",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
     "declaration": true,
     "outDir": "./dist",
     "rootDirs": [".", "examples/output-folder/__generated__"]

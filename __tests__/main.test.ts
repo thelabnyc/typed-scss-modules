@@ -1,23 +1,29 @@
-import fs from "fs";
-import path from "path";
+import {jest} from "@jest/globals";
+import fs from "node:fs";
+import path from "node:path";
 import slash from "slash";
-import { alerts } from "../lib/core";
-import { main } from "../lib/main";
+import { alerts } from "../lib/core/index.ts";
+import { main } from "../lib/main.ts";
+
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 describe("main", () => {
-  let writeFileSyncSpy: jest.SpyInstance;
+  let writeFileSyncSpy: jest.SpiedFunction<typeof fs.writeFileSync>;
 
   beforeEach(() => {
     // Only mock the writes, so the example files can still be read.
-    writeFileSyncSpy = jest.spyOn(fs, "writeFileSync").mockImplementation();
+    writeFileSyncSpy = jest.spyOn(fs, "writeFileSync").mockImplementation(() => null);
 
     // Avoid creating directories while running tests.
-    jest.spyOn(fs, "mkdirSync").mockImplementation();
+    jest.spyOn(fs, "mkdirSync").mockImplementation(() => undefined);
 
     // Avoid console logs showing up.
-    jest.spyOn(console, "log").mockImplementation();
+    jest.spyOn(console, "log").mockImplementation(() => null);
 
-    jest.spyOn(alerts, "error").mockImplementation();
+    jest.spyOn(alerts, "error").mockImplementation(() => null);
   });
 
   afterEach(() => {
@@ -132,6 +138,7 @@ describe("main", () => {
 
     // Transform the calls into a more readable format for the snapshot.
     const contents = writeFileSyncSpy.mock.calls
+      // @ts-expect-error mock args
       .map(([fullFilePath, contents]: [string, string]) => ({
         path: path.relative(__dirname, fullFilePath),
         contents,
@@ -163,6 +170,7 @@ describe("main", () => {
 
     // Transform the calls into a more readable format for the snapshot.
     const contents = writeFileSyncSpy.mock.calls
+      // @ts-expect-error mock args
       .map(([fullFilePath, contents]: [string, string]) => ({
         path: path.relative(__dirname, fullFilePath),
         contents,

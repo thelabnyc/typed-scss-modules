@@ -2,13 +2,13 @@ import fs from "fs";
 import path from "path";
 import slash from "slash";
 import {
-  CLIOptions,
+  type CLIOptions,
   generate,
   listDifferent,
   setAlertsLogLevel,
   watch,
-} from "./core";
-import { loadConfig, mergeOptions } from "./load";
+} from "./core/index.ts";
+import { loadConfig, mergeOptions } from "./load.ts";
 
 export const main = async (
   pattern: string,

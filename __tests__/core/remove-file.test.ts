@@ -1,8 +1,14 @@
-import fs from "fs";
-import path from "path";
-import { alerts } from "../../lib/core/alerts";
-import { removeSCSSTypeDefinitionFile } from "../../lib/core/remove-file";
-import { DEFAULT_OPTIONS } from "../../lib/load";
+import {jest} from "@jest/globals";
+import fs from "node:fs";
+import path from "node:path";
+import { alerts } from "../../lib/core/alerts.ts";
+import { removeSCSSTypeDefinitionFile } from "../../lib/core/remove-file.ts";
+import { DEFAULT_OPTIONS } from "../../lib/load.ts";
+
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 describe("removeFile", () => {
   const originalTestFile = path.resolve(__dirname, "..", "removable.scss");
@@ -16,9 +22,9 @@ describe("removeFile", () => {
     "__generated__/__tests__/removable.scss.d.ts"
   );
 
-  let existsSpy: jest.SpyInstance;
-  let unlinkSpy: jest.SpyInstance;
-  let alertsSpy: jest.SpyInstance;
+  let existsSpy: jest.SpiedFunction<typeof fs.exists>;
+  let unlinkSpy: jest.SpiedFunction<typeof fs.unlinkSync>;
+  let alertsSpy: jest.SpiedFunction<typeof alerts.success>;
 
   beforeEach(() => {
     existsSpy = jest
@@ -30,9 +36,9 @@ describe("removeFile", () => {
           path === outputFolderExistingTypes
       );
 
-    unlinkSpy = jest.spyOn(fs, "unlinkSync").mockImplementation();
+    unlinkSpy = jest.spyOn(fs, "unlinkSync").mockImplementation(() => null);
 
-    alertsSpy = jest.spyOn(alerts, "success").mockImplementation();
+    alertsSpy = jest.spyOn(alerts, "success").mockImplementation(() => null);
   });
 
   afterEach(() => {

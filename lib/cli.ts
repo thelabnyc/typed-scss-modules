@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 
 import yargs from "yargs";
-import { main } from "./main";
-import { Aliases, NAME_FORMATS } from "./sass";
-import { EXPORT_TYPES, LOG_LEVELS, QUOTE_TYPES } from "./typescript";
+import { hideBin } from 'yargs/helpers';
+import { main } from "./main.ts";
+import { type Aliases, NAME_FORMATS } from "./sass/index.ts";
+import { EXPORT_TYPES, LOG_LEVELS, QUOTE_TYPES } from "./typescript/index.ts";
 
-const { _: patterns, ...rest } = yargs
+const { _: patterns, ...rest } = yargs(hideBin(process.argv))
   .usage(
     "Generate .scss.d.ts from CSS module .scss files.\nUsage: $0 <glob pattern> [options]"
   )

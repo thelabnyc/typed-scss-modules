@@ -1,5 +1,6 @@
+import {jest} from "@jest/globals";
 import { LegacyImporterThis } from "sass";
-import { aliasImporter, customImporters } from "../../lib/sass/importer";
+import { aliasImporter, customImporters } from "../../lib/sass/importer.ts";
 
 // SASS importers receive two other arguments that this package doesn't care about.
 // Fake `this` which the type definition defines for importers.
@@ -76,7 +77,7 @@ describe("#customImporters", () => {
     const importers = customImporters({
       aliases: {},
       aliasPrefixes: {},
-      importer,
+      importer: (importer as any),
     });
 
     expect(importers).toHaveLength(2);
@@ -91,7 +92,7 @@ describe("#customImporters", () => {
     const importers = customImporters({
       aliases: {},
       aliasPrefixes: {},
-      importer: [importer1, importer2, importer3],
+      importer: [importer1 as any, importer2 as any, importer3 as any],
     });
 
     expect(importers).toHaveLength(4);

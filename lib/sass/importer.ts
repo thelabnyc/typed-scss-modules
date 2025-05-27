@@ -1,8 +1,8 @@
-import { LegacySyncImporter } from "sass";
+import type { LegacySyncImporter } from "sass";
 
 type Importer = LegacySyncImporter;
 
-export { Importer };
+export { type Importer };
 
 export interface Aliases {
   [index: string]: string;

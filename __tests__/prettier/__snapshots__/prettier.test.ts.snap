@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`attemptPrettier should match snapshot 1`] = `
+exports[`applyPrettier should match snapshot 1`] = `
 "export type Styles = {
-  nestedAnother: string;
-  nestedClass: string;
-  someStyles: string;
+    nestedAnother: string;
+    nestedClass: string;
+    someStyles: string;
 };
 
 export type ClassNames = keyof Styles;

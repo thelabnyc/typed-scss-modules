@@ -72,13 +72,13 @@ exports[`main reads options from the configuration file 1`] = `
 [
   {
     "contents": "export type Styles = {
-  myCustomClass: string;
-  nestedAnother: string;
-  nestedClass: string;
-  nestedStyles: string;
-  number1: string;
-  someStyles: string;
-  whereSelector: string;
+    myCustomClass: string;
+    nestedAnother: string;
+    nestedClass: string;
+    nestedStyles: string;
+    number1: string;
+    someStyles: string;
+    whereSelector: string;
 };
 
 export type ClassNames = keyof Styles;
@@ -91,13 +91,13 @@ export default styles;
   },
   {
     "contents": "export type Styles = {
-  myCustomClass: string;
-  nestedAnother: string;
-  nestedClass: string;
-  number1: string;
-  someClass: string;
-  someStyles: string;
-  whereSelector: string;
+    myCustomClass: string;
+    nestedAnother: string;
+    nestedClass: string;
+    number1: string;
+    someClass: string;
+    someStyles: string;
+    whereSelector: string;
 };
 
 export type ClassNames = keyof Styles;
@@ -110,11 +110,11 @@ export default styles;
   },
   {
     "contents": "export type Styles = {
-  nestedAnother: string;
-  nestedClass: string;
-  number1: string;
-  someStyles: string;
-  whereSelector: string;
+    nestedAnother: string;
+    nestedClass: string;
+    number1: string;
+    someStyles: string;
+    whereSelector: string;
 };
 
 export type ClassNames = keyof Styles;
@@ -127,7 +127,7 @@ export default styles;
   },
   {
     "contents": "export type Styles = {
-  composedClass: string;
+    composedClass: string;
 };
 
 export type ClassNames = keyof Styles;
@@ -140,9 +140,9 @@ export default styles;
   },
   {
     "contents": "export type Styles = {
-  app: string;
-  appHeader: string;
-  logo: string;
+    app: string;
+    appHeader: string;
+    logo: string;
 };
 
 export type ClassNames = keyof Styles;
@@ -155,7 +155,7 @@ export default styles;
   },
   {
     "contents": "export type Styles = {
-  globalStyle: string;
+    globalStyle: string;
 };
 
 export type ClassNames = keyof Styles;
@@ -168,7 +168,7 @@ export default styles;
   },
   {
     "contents": "export type Styles = {
-  randomClass: string;
+    randomClass: string;
 };
 
 export type ClassNames = keyof Styles;
@@ -181,7 +181,7 @@ export default styles;
   },
   {
     "contents": "export type Styles = {
-  nestedStyles: string;
+    nestedStyles: string;
 };
 
 export type ClassNames = keyof Styles;
@@ -194,7 +194,7 @@ export default styles;
   },
   {
     "contents": "export type Styles = {
-  someClass: string;
+    someClass: string;
 };
 
 export type ClassNames = keyof Styles;

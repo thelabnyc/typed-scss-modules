@@ -1,7 +1,7 @@
-import { alerts } from "./alerts";
-import { listFilesAndPerformSanityChecks } from "./list-files-and-perform-sanity-checks";
-import { ConfigOptions } from "./types";
-import { writeFile } from "./write-file";
+import { alerts } from "./alerts.ts";
+import { listFilesAndPerformSanityChecks } from "./list-files-and-perform-sanity-checks.ts";
+import type { ConfigOptions } from "./types.ts";
+import { writeFile } from "./write-file.ts";
 
 /**
  * Given a file glob generate the corresponding types once.

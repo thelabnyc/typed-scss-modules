@@ -1,6 +1,6 @@
 export type Styles = {
-  i: string;
-  "i-am-kebab-cased": string;
+    "i": string;
+    "i-am-kebab-cased": string;
 };
 
 export type ClassNames = keyof Styles;

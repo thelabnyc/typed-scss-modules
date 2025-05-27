@@ -1,5 +1,12 @@
-import { ConfigOptions } from "../../lib/core";
-import { listFilesAndPerformSanityChecks } from "../../lib/core/list-files-and-perform-sanity-checks";
+import {jest} from "@jest/globals";
+import { ConfigOptions } from "../../lib/core/index.ts";
+import { listFilesAndPerformSanityChecks } from "../../lib/core/list-files-and-perform-sanity-checks.ts";
+
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const options: ConfigOptions = {
   banner: "",

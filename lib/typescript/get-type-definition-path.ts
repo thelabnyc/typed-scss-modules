@@ -1,5 +1,5 @@
-import path from "path";
-import { ConfigOptions } from "../core";
+import path from "node:path";
+import { type ConfigOptions } from "../core/index.ts";
 
 const CURRENT_WORKING_DIRECTORY = process.cwd();
 

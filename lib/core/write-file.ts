@@ -1,13 +1,13 @@
-import fs from "fs";
-import path from "path";
-import { fileToClassNames } from "../sass";
+import fs from "node:fs";
+import path from "node:path";
+import { fileToClassNames } from "../sass/index.ts";
 import {
   classNamesToTypeDefinitions,
   getTypeDefinitionPath,
-} from "../typescript";
-import { alerts } from "./alerts";
-import { removeSCSSTypeDefinitionFile } from "./remove-file";
-import { CLIOptions } from "./types";
+} from "../typescript/index.ts";
+import { alerts } from "./alerts.ts";
+import { removeSCSSTypeDefinitionFile } from "./remove-file.ts";
+import type { CLIOptions } from "./types.ts";
 
 /**
  * Given a single file generate the proper types.

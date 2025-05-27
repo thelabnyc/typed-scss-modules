@@ -1,6 +1,6 @@
 import glob from "glob";
-import { alerts } from "./alerts";
-import { ConfigOptions } from "./types";
+import { alerts } from "./alerts.ts";
+import type { ConfigOptions } from "./types.ts";
 
 /**
  * Return the files matching the given pattern and alert the user if only 0 or 1

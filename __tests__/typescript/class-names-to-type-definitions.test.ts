@@ -1,13 +1,15 @@
-import os from "os";
-import { join } from "path";
-import { classNamesToTypeDefinitions } from "../../lib/typescript";
+import {jest} from "@jest/globals";
+import os from "node:os";
+import path, { join } from "node:path";
+import { classNamesToTypeDefinitions } from "../../lib/typescript/index.ts";
+import { fileURLToPath } from "node:url";
 
-jest.mock("../../lib/prettier/can-resolve", () => ({
-  canResolvePrettier: () => false,
-}));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const file = join(__dirname, "test.d.ts");
 
-describe("classNamesToTypeDefinitions (without Prettier)", () => {
+describe("classNamesToTypeDefinitions", () => {
   beforeEach(() => {
     console.log = jest.fn();
   });
@@ -76,7 +78,7 @@ describe("classNamesToTypeDefinitions (without Prettier)", () => {
       });
 
       expect(definition).toEqual(
-        "export type Styles = {\n  'myClass': string;\n  'yourClass': string;\n};\n\nexport type ClassNames = keyof Styles;\n\ndeclare const styles: Styles;\n\nexport default styles;\n"
+        "export type Styles = {\n    myClass: string;\n    yourClass: string;\n};\n\nexport type ClassNames = keyof Styles;\n\ndeclare const styles: Styles;\n\nexport default styles;\n"
       );
     });
 
@@ -117,7 +119,7 @@ describe("classNamesToTypeDefinitions (without Prettier)", () => {
       });
 
       expect(definition).toEqual(
-        'export type Styles = {\n  "myClass": string;\n  "yourClass": string;\n};\n\nexport type ClassNames = keyof Styles;\n\ndeclare const styles: Styles;\n\nexport default styles;\n'
+        'export type Styles = {\n    myClass: string;\n    yourClass: string;\n};\n\nexport type ClassNames = keyof Styles;\n\ndeclare const styles: Styles;\n\nexport default styles;\n'
       );
     });
 
@@ -147,7 +149,7 @@ describe("classNamesToTypeDefinitions (without Prettier)", () => {
       });
 
       expect(definition).toEqual(
-        "export type Styles = {\n  'myClass': string;\n  'yourClass': string;\n};\n\nexport type Classes = keyof Styles;\n\ndeclare const styles: Styles;\n\nexport default styles;\n"
+        "export type Styles = {\n    myClass: string;\n    yourClass: string;\n};\n\nexport type Classes = keyof Styles;\n\ndeclare const styles: Styles;\n\nexport default styles;\n"
       );
     });
 
@@ -161,7 +163,7 @@ describe("classNamesToTypeDefinitions (without Prettier)", () => {
       });
 
       expect(definition).toEqual(
-        "export type IStyles = {\n  'myClass': string;\n  'yourClass': string;\n};\n\nexport type ClassNames = keyof IStyles;\n\ndeclare const styles: IStyles;\n\nexport default styles;\n"
+        "export type IStyles = {\n    myClass: string;\n    yourClass: string;\n};\n\nexport type ClassNames = keyof IStyles;\n\ndeclare const styles: IStyles;\n\nexport default styles;\n"
       );
     });
   });

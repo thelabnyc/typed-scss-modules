@@ -1,10 +1,11 @@
-import { alerts, setAlertsLogLevel } from "../../lib/core";
+import {jest} from "@jest/globals";
+import { alerts, setAlertsLogLevel } from "../../lib/core/index.ts";
 
 describe("alerts", () => {
-  let logSpy: jest.SpyInstance;
+  let logSpy: jest.SpiedFunction<typeof console.log>;
 
   beforeEach(() => {
-    logSpy = jest.spyOn(console, "log").mockImplementation();
+    logSpy = jest.spyOn(console, "log").mockImplementation(() => null);
   });
 
   afterEach(() => {
