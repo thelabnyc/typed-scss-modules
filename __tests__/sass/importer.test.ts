@@ -1,10 +1,9 @@
-import { SyncContext } from "node-sass";
 import { LegacyImporterThis } from "sass";
 import { aliasImporter, customImporters } from "../../lib/sass/importer";
 
 // SASS importers receive two other arguments that this package doesn't care about.
-// Fake `this` which the type definitions both define for importers.
-const fakeImporterThis = {} as LegacyImporterThis & SyncContext;
+// Fake `this` which the type definition defines for importers.
+const fakeImporterThis = {} as LegacyImporterThis;
 const fakePrev = "";
 
 describe("#aliasImporter", () => {

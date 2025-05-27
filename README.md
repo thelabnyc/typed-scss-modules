@@ -1,5 +1,7 @@
 # 🎁 typed-scss-modules
 
+<!-- TODO: (if needed) add a disclaimer about breaking changes for `implementation` and `importer` around here, in #239 -->
+
 [![npm version](https://img.shields.io/npm/v/typed-scss-modules.svg?style=flat)](https://www.npmjs.com/package/typed-scss-modules)
 
 Generate TypeScript definitions (`.d.ts`) files for CSS Modules that are written in SCSS (`.scss`). Check out [this post to learn more](https://skovy.dev/generating-typescript-definitions-for-css-modules-using-sass/) about the rationale and inspiration behind this package.
@@ -87,12 +89,6 @@ A pattern or an array of glob patterns to exclude files that match and avoid gen
 - **Example**: `typed-scss-modules src --includePaths src/core`
 
 An array of paths to look in to attempt to resolve your `@import` declarations. This example will search the `src/core` directory when resolving imports.
-
-### `--implementation`
-
-- **Type**: `"node-sass" | "sass"`
-- **Default**: If an option is passed, it will always use the provided package implementation. If an option is not passed, it will first check if `node-sass` is installed. If it is, it will be used. Otherwise, it will then check if `sass` is installed. If it is, it will be used. Finally, falling back to `node-sass` if all checks and validations fail.
-- **Example**: `typed-scss-modules src --implementation sass`
 
 ### `--aliases` (`-a`)
 
@@ -350,7 +346,7 @@ In addition to all CLI options, the following are options only available with th
 
 Define a [single custom SASS importer or an array of SASS importers](https://github.com/sass/sass/blob/f355f602fc15f55b0a0a795ebe6eb819963e08a5/js-api-doc/legacy/importer.d.ts#L51-L149). This should only be necessary if custom SASS importers are already being used in the build process. This is used internally to implement `aliases` and `aliasPrefixes`.
 
-Refer to [`lib/sass/importer.ts`](/blob/master/lib/sass/importer.ts) for more details and the `node-sass` and `sass` importer type definitions.
+Refer to [`lib/sass/importer.ts`](/blob/master/lib/sass/importer.ts) for more details and the `sass` importer type definition.
 
 ### `--allowArbitraryExtensions`
 

@@ -35,7 +35,6 @@ describe("dart-sass", () => {
       exportTypeInterface: "Styles",
       listDifferent: false,
       ignore: [],
-      implementation: "sass",
       quoteType: "single",
       updateStaleOnly: false,
       logLevel: "verbose",
