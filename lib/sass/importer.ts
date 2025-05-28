@@ -1,8 +1,18 @@
-import type { LegacySyncImporter } from "sass";
+import { pathToFileURL } from "node:url";
 
-type Importer = LegacySyncImporter;
+import type {
+    CanonicalizeContext,
+    FileImporter,
+    Importer,
+    Options,
+} from "sass";
 
-export { type Importer };
+export type { Importer, FileImporter };
+
+export type AnyImporter = Exclude<
+    Options<"sync">["importers"],
+    undefined
+>[number];
 
 export interface Aliases {
     [index: string]: string;
@@ -13,38 +23,43 @@ interface AliasImporterOptions {
     aliasPrefixes: Aliases;
 }
 
-/**
- * Construct a SASS importer to create aliases for imports.
- */
-export const aliasImporter =
-    ({ aliases, aliasPrefixes }: AliasImporterOptions): Importer =>
-    (url: string) => {
-        if (url in aliases) {
-            const file = aliases[url];
+export class AliasImporter implements FileImporter<"sync"> {
+    public readonly opts: Readonly<AliasImporterOptions>;
 
-            return {
-                file,
-            };
+    constructor(opts: AliasImporterOptions) {
+        this.opts = opts;
+    }
+
+    public readonly findFileUrl = (
+        url: string,
+        ctx: CanonicalizeContext,
+    ): URL | null => {
+        const basePath = ctx.containingUrl || pathToFileURL("node_modules");
+
+        if (url in this.opts.aliases) {
+            const file = this.opts.aliases[url];
+            return new URL(file, basePath);
         }
 
-        const prefixMatch = Object.keys(aliasPrefixes).find((prefix) =>
-            url.startsWith(prefix),
+        const prefixMatch = Object.keys(this.opts.aliasPrefixes).find(
+            (prefix) => url.startsWith(prefix),
         );
-
         if (prefixMatch) {
-            return {
-                file:
-                    aliasPrefixes[prefixMatch] + url.substr(prefixMatch.length),
-            };
+            return new URL(
+                this.opts.aliasPrefixes[prefixMatch] +
+                    url.substr(prefixMatch.length),
+                basePath,
+            );
         }
 
         return null;
     };
+}
 
 export interface SASSImporterOptions {
     aliases?: Aliases;
     aliasPrefixes?: Aliases;
-    importer?: Importer | Importer[];
+    importers?: AnyImporter[];
 }
 
 /**
@@ -53,17 +68,16 @@ export interface SASSImporterOptions {
  *  - Given aliases and alias prefix options, add a custom alias importer.
  *  - Given custom SASS importer(s), append to the list of importers.
  */
-export const customImporters = ({
-    aliases = {},
-    aliasPrefixes = {},
-    importer,
-}: SASSImporterOptions): Importer[] => {
-    const importers: Importer[] = [aliasImporter({ aliases, aliasPrefixes })];
+export const customImporters = (opts: SASSImporterOptions): AnyImporter[] => {
+    let importers: AnyImporter[] = [
+        new AliasImporter({
+            aliases: opts.aliases || {},
+            aliasPrefixes: opts.aliasPrefixes || {},
+        }),
+    ];
 
-    if (typeof importer === "function") {
-        importers.push(importer);
-    } else if (Array.isArray(importer)) {
-        importers.push(...importer);
+    if (opts.importers) {
+        importers = importers.concat(opts.importers);
     }
 
     return importers;

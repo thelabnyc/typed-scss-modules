@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { pathToFileURL } from "node:url";
 
 import {
     camelCase,
@@ -53,9 +54,9 @@ export const fileToClassNames = async (
         additionalData,
         includePaths = [],
         nameFormat: rawNameFormat,
-        aliases,
-        aliasPrefixes,
-        importer,
+        aliases = {},
+        aliasPrefixes = {},
+        importers,
     }: SASSOptions = {} as SASSOptions,
 ) => {
     const nameFormat = (
@@ -69,13 +70,20 @@ export const fileToClassNames = async (
             : (nameFormat as NameFormatWithTransformer[])
         : [nameFormatDefault];
 
-    const data = fs.readFileSync(file).toString();
-    const result = sass.renderSync({
-        file,
-        data: additionalData ? `${additionalData}\n${data}` : data,
-        includePaths,
-        importer: customImporters({ aliases, aliasPrefixes, importer }),
-    });
+    const fileContents = additionalData
+        ? `${additionalData}\n${fs.readFileSync(file).toString()}`
+        : null;
+    const compileOpts: Parameters<typeof sass.compileString>[1] &
+        Parameters<typeof sass.compile>[1] = {
+        loadPaths: includePaths,
+        importers: customImporters({ aliases, aliasPrefixes, importers }),
+    };
+    const result = fileContents
+        ? sass.compileString(fileContents, {
+              ...compileOpts,
+              url: pathToFileURL(file),
+          })
+        : sass.compile(file, compileOpts);
 
     const classNames = await sourceToClassNames(result.css, file);
     const transformers = nameFormats.map((item) => transformersMap[item]);

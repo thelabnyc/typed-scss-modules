@@ -1,6 +1,7 @@
 import path from "node:path";
 
 import { jest } from "@jest/globals";
+import { NodePackageImporter } from "sass";
 
 import { DEFAULT_OPTIONS, loadConfig, mergeOptions } from "../lib/load.ts";
 
@@ -76,8 +77,7 @@ describe("#mergeOptions", () => {
     });
 
     it("should allow overriding all default options via the config options", () => {
-        const importer = jest.fn();
-
+        const importers = [new NodePackageImporter()];
         expect(
             mergeOptions(
                 {},
@@ -95,8 +95,7 @@ describe("#mergeOptions", () => {
                     logLevel: "silent",
                     banner: "// override",
                     outputFolder: "__generated__",
-                    /* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
-                    importer: importer as any,
+                    importers: importers,
                     allowArbitraryExtensions: true,
                 },
             ),
@@ -114,15 +113,13 @@ describe("#mergeOptions", () => {
             logLevel: "silent",
             banner: "// override",
             outputFolder: "__generated__",
-            /* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
-            importer: importer as any,
+            importers: importers,
             allowArbitraryExtensions: true,
         });
     });
 
     it("should give precedence to CLI options and still merge config-only options", () => {
-        const importer = jest.fn();
-
+        const importers = [new NodePackageImporter()];
         expect(
             mergeOptions(
                 {
@@ -155,8 +152,7 @@ describe("#mergeOptions", () => {
                     logLevel: "info",
                     banner: "// not override",
                     outputFolder: "__generated__",
-                    /* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
-                    importer: importer as any,
+                    importers: importers,
                 },
             ),
         ).toEqual({
@@ -173,15 +169,13 @@ describe("#mergeOptions", () => {
             logLevel: "silent",
             banner: "// override",
             outputFolder: "__cli-generated__",
-            /* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
-            importer: importer as any,
+            importers: importers,
             allowArbitraryExtensions: true,
         });
     });
 
     it("should give ignore undefined CLI options", () => {
-        const importer = jest.fn();
-
+        const importers = [new NodePackageImporter()];
         expect(
             mergeOptions(
                 {
@@ -218,8 +212,7 @@ describe("#mergeOptions", () => {
                     logLevel: "info",
                     banner: "// banner",
                     outputFolder: "__generated__",
-                    /* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
-                    importer: importer as any,
+                    importers: importers,
                     allowArbitraryExtensions: false,
                 },
             ),
@@ -239,8 +232,7 @@ describe("#mergeOptions", () => {
             logLevel: "silent",
             banner: "// banner",
             outputFolder: "__cli-generated__",
-            /* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
-            importer: importer as any,
+            importers: importers,
             allowArbitraryExtensions: true,
         });
     });

@@ -1,50 +1,48 @@
+import { pathToFileURL } from "node:url";
+
 import { jest } from "@jest/globals";
-import { LegacyImporterThis } from "sass";
+import { CanonicalizeContext, NodePackageImporter } from "sass";
 
-import { aliasImporter, customImporters } from "../../lib/sass/importer.ts";
+import { AliasImporter, customImporters } from "../../lib/sass/importer.ts";
 
-// SASS importers receive two other arguments that this package doesn't care about.
-// Fake `this` which the type definition defines for importers.
-const fakeImporterThis = {} as LegacyImporterThis;
-const fakePrev = "";
+const context: CanonicalizeContext = {
+    containingUrl: null,
+    fromImport: false,
+};
 
 describe("#aliasImporter", () => {
     it("should create an importer to replace aliases and otherwise return null", () => {
-        const importer = aliasImporter({
+        const importer = new AliasImporter({
             aliases: { "input": "output", "~alias": "node_modules" },
             aliasPrefixes: {},
         });
 
-        expect(importer.call(fakeImporterThis, "input", fakePrev)).toEqual({
-            file: "output",
-        });
-        expect(importer.call(fakeImporterThis, "~alias", fakePrev)).toEqual({
-            file: "node_modules",
-        });
-        expect(importer.call(fakeImporterThis, "output", fakePrev)).toBeNull();
-        expect(
-            importer.call(fakeImporterThis, "input-substring", fakePrev),
-        ).toBeNull();
-        expect(importer.call(fakeImporterThis, "other", fakePrev)).toBeNull();
+        expect(importer.findFileUrl("input", context)).toEqual(
+            pathToFileURL("output"),
+        );
+        expect(importer.findFileUrl("~alias", context)).toEqual(
+            pathToFileURL("node_modules"),
+        );
+        expect(importer.findFileUrl("output", context)).toBeNull();
+        expect(importer.findFileUrl("input-substring", context)).toBeNull();
+        expect(importer.findFileUrl("other", context)).toBeNull();
     });
 
     it("should create an importer to replace alias prefixes and otherwise return null", () => {
-        const importer = aliasImporter({
+        const importer = new AliasImporter({
             aliases: {},
             aliasPrefixes: { "~": "node_modules/", "abc": "def" },
         });
 
-        expect(importer.call(fakeImporterThis, "abc-123", fakePrev)).toEqual({
-            file: "def-123",
-        });
-        expect(importer.call(fakeImporterThis, "~package", fakePrev)).toEqual({
-            file: "node_modules/package",
-        });
-        expect(importer.call(fakeImporterThis, "output~", fakePrev)).toBeNull();
-        expect(
-            importer.call(fakeImporterThis, "input-substring-abc", fakePrev),
-        ).toBeNull();
-        expect(importer.call(fakeImporterThis, "other", fakePrev)).toBeNull();
+        expect(importer.findFileUrl("abc-123", context)).toEqual(
+            pathToFileURL("def-123"),
+        );
+        expect(importer.findFileUrl("~package", context)).toEqual(
+            pathToFileURL("node_modules/package"),
+        );
+        expect(importer.findFileUrl("output~", context)).toBeNull();
+        expect(importer.findFileUrl("input-substring-abc", context)).toBeNull();
+        expect(importer.findFileUrl("other", context)).toBeNull();
     });
 });
 
@@ -63,29 +61,28 @@ describe("#customImporters", () => {
 
         const [aliasImporter] = importers;
 
-        expect(
-            aliasImporter.call(fakeImporterThis, "~package", fakePrev),
-        ).toEqual({
-            file: "node_modules/package",
-        });
-        expect(
-            aliasImporter.call(fakeImporterThis, "~alias", fakePrev),
-        ).toEqual({
-            file: "secret/path",
-        });
-        expect(
-            aliasImporter.call(fakeImporterThis, "other", fakePrev),
-        ).toBeNull();
+        if (!(aliasImporter instanceof AliasImporter)) {
+            throw new Error(
+                "Expected aliasImporter to be instance of AliasImporter",
+            );
+        }
+
+        expect(aliasImporter.findFileUrl("~package", context)).toEqual(
+            pathToFileURL("node_modules/package"),
+        );
+        expect(aliasImporter.findFileUrl("~alias", context)).toEqual(
+            pathToFileURL("secret/path"),
+        );
+        expect(aliasImporter.findFileUrl("other", context)).toBeNull();
     });
 
     it("should add additional importers if passed a function", () => {
-        const importer = jest.fn();
+        const importer = new NodePackageImporter();
 
         const importers = customImporters({
             aliases: {},
             aliasPrefixes: {},
-            /* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
-            importer: importer as any,
+            importers: [importer],
         });
 
         expect(importers).toHaveLength(2);
@@ -93,15 +90,14 @@ describe("#customImporters", () => {
     });
 
     it("should add multiple importers if passed an array", () => {
-        const importer1 = jest.fn();
-        const importer2 = jest.fn();
-        const importer3 = jest.fn();
+        const importer1 = new NodePackageImporter();
+        const importer2 = new NodePackageImporter();
+        const importer3 = new NodePackageImporter();
 
         const importers = customImporters({
             aliases: {},
             aliasPrefixes: {},
-            /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-            importer: [importer1 as any, importer2 as any, importer3 as any],
+            importers: [importer1, importer2, importer3],
         });
 
         expect(importers).toHaveLength(4);
