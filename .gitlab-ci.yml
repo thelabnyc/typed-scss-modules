@@ -41,7 +41,7 @@ release:pkg-npm:
   <<: *release_job
   script:
     - echo "//registry.npmjs.org/:_authToken=${NPM_PUBLISH_TOKEN}" > .npmrc
-    - npm publish
+    - npm publish --access public
 
 release:pkg-gitlab:
   <<: *dev_dependency_job
