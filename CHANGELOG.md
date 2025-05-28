@@ -1,5 +1,16 @@
 # Changelog
 
+## v8.2.0-a0 (2025-05-28)
+
+### Feat
+
+- migrate off of deprecated sass.render API
+- refactor as ESM
+
+### Fix
+
+- migrate deprecated Sass syntax in tests and examples
+
 ## v8.1.1 (2025-01-11)
 
 ### Fix
