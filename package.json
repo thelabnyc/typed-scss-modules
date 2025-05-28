@@ -28,12 +28,12 @@
   ],
   "bin": "./dist/lib/cli.js",
   "scripts": {
+    "prepack": "npm run build",
     "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
     "test:watch": "NODE_OPTIONS='--experimental-vm-modules' jest --watch",
     "typed-scss-modules": "tsx ./lib/cli.ts",
     "clean": "rm -rf ./dist",
     "build": "npm run clean && tsc && chmod +x dist/lib/cli.js",
-    "prepare": "npm run build",
     "check:types": "tsc --noEmit",
     "check:lint": "eslint .",
     "check": "npm run check:types && npm run check:lint"

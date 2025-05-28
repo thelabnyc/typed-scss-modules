@@ -9,7 +9,7 @@ variables:
 .dev_dependency_job: &dev_dependency_job
   image: registry.gitlab.com/thelabnyc/python:3.13.673-node20@sha256:b76cf09fc3ad427cf511ceb1114f0c0af50cf19b1234f32248c5c4aee375bc7a
   before_script:
-    - npm install
+    - npm ci
   cache:
     key: devdependencies
     paths:
@@ -22,19 +22,14 @@ variables:
   needs:
     - test
 
+include:
+  - component: gitlab.com/thelabnyc/thelab-ci-components/precommit@0.4.0
+
 test:
   <<: *dev_dependency_job
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-      when: never
-    - if: $CI_COMMIT_BRANCH && $CI_COMMIT_REF_PROTECTED == "true"
-    - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true"
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
   stage: test
   needs: []
   script:
-    - pip3 install pre-commit
-    - pre-commit run --all-files
     - npm run check
     - npm run build
     - npm run test
