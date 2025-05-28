@@ -1,5 +1,5 @@
 {
-  "name": "typed-scss-modules",
+  "name": "@thelabnyc/typed-scss-modules",
   "version": "8.1.1",
   "description": "TypeScript type definition generator for SCSS CSS Modules",
   "type": "module",
@@ -12,9 +12,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/skovy/typed-scss-modules.git"
+    "url": "https://gitlab.com/thelabnyc/typed-scss-modules.git"
   },
-  "homepage": "https://github.com/skovy/typed-scss-modules.git#readme",
+  "homepage": "https://gitlab.com/thelabnyc/typed-scss-modules",
   "keywords": [
     "scss",
     "css modules",
