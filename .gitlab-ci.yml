@@ -36,7 +36,14 @@ test:
     - npm run build
     - npm run test
 
-release:pkg:
+release:pkg-npm:
+  <<: *dev_dependency_job
+  <<: *release_job
+  script:
+    - echo "//registry.npmjs.org/:_authToken=${NPM_PUBLISH_TOKEN}" > .npmrc
+    - npm publish
+
+release:pkg-gitlab:
   <<: *dev_dependency_job
   <<: *release_job
   script:
