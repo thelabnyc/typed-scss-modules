@@ -3,6 +3,7 @@ repos:
     rev: v0.0.2
     hooks:
       - id: update-copyright-year
+      - id: npm-install
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
