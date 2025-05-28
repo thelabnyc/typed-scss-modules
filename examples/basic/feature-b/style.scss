@@ -1,4 +1,4 @@
-@import "~alias";
+@use "~alias" as *;
 
 .top-banner {
     background: $yellow;

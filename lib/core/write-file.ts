@@ -71,9 +71,7 @@ export const writeFile = async (
         alerts.success(`[GENERATED TYPES] ${typesPath}`);
     } catch (error) {
         alerts.error(
-            `An error occurred generating type definitions for ${file}:\n${JSON.stringify(
-                error,
-            )}`,
+            `An error occurred generating type definitions for ${file}:\n${(error as Error).toString()}`,
         );
     }
 };

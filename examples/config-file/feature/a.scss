@@ -1,4 +1,4 @@
-@import "variables.json";
+@use "variables.json" as *;
 
 .class-name {
     color: $color-red;

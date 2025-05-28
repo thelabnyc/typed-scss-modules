@@ -1,5 +1,7 @@
-@import "~fancy-import";
-@import "~another";
+@use "sass:meta";
+
+@include meta.load-css("~fancy-import");
+@include meta.load-css("~another");
 
 .my-custom-class {
     color: green;

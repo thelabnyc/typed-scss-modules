@@ -29,7 +29,7 @@
   "bin": "./dist/lib/cli.js",
   "scripts": {
     "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
-    "test:watch": "jest --watch",
+    "test:watch": "NODE_OPTIONS='--experimental-vm-modules' jest --watch",
     "typed-scss-modules": "tsx ./lib/cli.ts",
     "clean": "rm -rf ./dist",
     "build": "npm run clean && tsc && chmod +x dist/lib/cli.js",
