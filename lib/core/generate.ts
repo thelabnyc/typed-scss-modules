@@ -10,21 +10,21 @@ import { writeFile } from "./write-file.ts";
  * @param options the CLI options
  */
 export const generate = async (
-  pattern: string,
-  options: ConfigOptions
+    pattern: string,
+    options: ConfigOptions,
 ): Promise<void> => {
-  const files = listFilesAndPerformSanityChecks(pattern, options);
+    const files = listFilesAndPerformSanityChecks(pattern, options);
 
-  if (files.length === 0) {
-    return;
-  }
+    if (files.length === 0) {
+        return;
+    }
 
-  alerts.success(
-    `Found ${files.length} file${
-      files.length === 1 ? `` : `s`
-    }. Generating type definitions...`
-  );
+    alerts.success(
+        `Found ${files.length} file${
+            files.length === 1 ? `` : `s`
+        }. Generating type definitions...`,
+    );
 
-  // Wait for all the type definitions to be written.
-  await Promise.all(files.map((file) => writeFile(file, options)));
+    // Wait for all the type definitions to be written.
+    await Promise.all(files.map((file) => writeFile(file, options)));
 };

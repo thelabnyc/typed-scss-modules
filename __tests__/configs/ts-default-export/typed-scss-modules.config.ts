@@ -1,3 +1,3 @@
 export default {
-  banner: "// ts-default-export",
+    banner: "// ts-default-export",
 };

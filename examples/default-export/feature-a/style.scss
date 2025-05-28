@@ -1,15 +1,15 @@
 .i {
-  color: orange;
+    color: orange;
 
-  &-am {
-    &-kebab {
-      &-cased {
-        color: red;
-      }
+    &-am {
+        &-kebab {
+            &-cased {
+                color: red;
+            }
+        }
     }
-  }
 }
 
 .while {
-  color: blue;
+    color: blue;
 }

@@ -1,3 +1,3 @@
 export const config = {
-  banner: "// ts-named-export",
+    banner: "// ts-named-export",
 };

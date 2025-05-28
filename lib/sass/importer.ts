@@ -5,45 +5,46 @@ type Importer = LegacySyncImporter;
 export { type Importer };
 
 export interface Aliases {
-  [index: string]: string;
+    [index: string]: string;
 }
 
 interface AliasImporterOptions {
-  aliases: Aliases;
-  aliasPrefixes: Aliases;
+    aliases: Aliases;
+    aliasPrefixes: Aliases;
 }
 
 /**
  * Construct a SASS importer to create aliases for imports.
  */
 export const aliasImporter =
-  ({ aliases, aliasPrefixes }: AliasImporterOptions): Importer =>
-  (url: string) => {
-    if (url in aliases) {
-      const file = aliases[url];
+    ({ aliases, aliasPrefixes }: AliasImporterOptions): Importer =>
+    (url: string) => {
+        if (url in aliases) {
+            const file = aliases[url];
 
-      return {
-        file,
-      };
-    }
+            return {
+                file,
+            };
+        }
 
-    const prefixMatch = Object.keys(aliasPrefixes).find((prefix) =>
-      url.startsWith(prefix)
-    );
+        const prefixMatch = Object.keys(aliasPrefixes).find((prefix) =>
+            url.startsWith(prefix),
+        );
 
-    if (prefixMatch) {
-      return {
-        file: aliasPrefixes[prefixMatch] + url.substr(prefixMatch.length),
-      };
-    }
+        if (prefixMatch) {
+            return {
+                file:
+                    aliasPrefixes[prefixMatch] + url.substr(prefixMatch.length),
+            };
+        }
 
-    return null;
-  };
+        return null;
+    };
 
 export interface SASSImporterOptions {
-  aliases?: Aliases;
-  aliasPrefixes?: Aliases;
-  importer?: Importer | Importer[];
+    aliases?: Aliases;
+    aliasPrefixes?: Aliases;
+    importer?: Importer | Importer[];
 }
 
 /**
@@ -53,17 +54,17 @@ export interface SASSImporterOptions {
  *  - Given custom SASS importer(s), append to the list of importers.
  */
 export const customImporters = ({
-  aliases = {},
-  aliasPrefixes = {},
-  importer,
+    aliases = {},
+    aliasPrefixes = {},
+    importer,
 }: SASSImporterOptions): Importer[] => {
-  const importers: Importer[] = [aliasImporter({ aliases, aliasPrefixes })];
+    const importers: Importer[] = [aliasImporter({ aliases, aliasPrefixes })];
 
-  if (typeof importer === "function") {
-    importers.push(importer);
-  } else if (Array.isArray(importer)) {
-    importers.push(...importer);
-  }
+    if (typeof importer === "function") {
+        importers.push(importer);
+    } else if (Array.isArray(importer)) {
+        importers.push(...importer);
+    }
 
-  return importers;
+    return importers;
 };

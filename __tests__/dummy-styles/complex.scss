@@ -1,21 +1,21 @@
 .some-styles {
-  color: red;
+    color: red;
 }
 
 .number-1 {
-  color: green;
+    color: green;
 }
 
 .nested {
-  &-class {
-    background: green;
-  }
+    &-class {
+        background: green;
+    }
 
-  &-another {
-    border: 1px;
-  }
+    &-another {
+        border: 1px;
+    }
 }
 
 :where(.where-selector) {
-  color: blue;
+    color: blue;
 }

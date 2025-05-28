@@ -10,10 +10,7 @@ export default getTSConfig({
     parserOptions: {
         tsconfigRootDir: __dirname,
         projectService: {
-            allowDefaultProject: [
-                '.commitlintrc.ts',
-                'eslint.config.mjs',
-            ],
+            allowDefaultProject: [".commitlintrc.ts", "eslint.config.mjs"],
         },
     },
     configs: [

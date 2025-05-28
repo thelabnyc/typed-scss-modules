@@ -30,13 +30,13 @@
   "scripts": {
     "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
     "test:watch": "jest --watch",
-    "typed-scss-modules": "ts-node ./lib/cli.ts",
+    "typed-scss-modules": "tsx ./lib/cli.ts",
     "clean": "rm -rf ./dist",
     "build": "npm run clean && tsc && chmod +x dist/lib/cli.js",
     "prepare": "npm run build",
-    "check:lint": "eslint .",
     "check:types": "tsc --noEmit",
-    "check": "npm run check:lint && npm run check:types"
+    "check:lint": "eslint .",
+    "check": "npm run check:types && npm run check:lint"
   },
   "peerDependencies": {
     "sass": "^1.89.0"
@@ -67,7 +67,7 @@
     "eslint-import-resolver-typescript": "^4.4.1",
     "jest": "^29.7.0",
     "ts-jest": "^29.3.4",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   }
 }

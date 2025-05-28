@@ -1,6 +1,6 @@
 // config file banner
 export type Styles = {
-  "class-name": string;
+    "class-name": string;
 };
 
 export type ClassNames = keyof Styles;

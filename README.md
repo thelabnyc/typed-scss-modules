@@ -14,11 +14,11 @@ For example, given the following SCSS:
 @import "variables";
 
 .text {
-  color: $blue;
+    color: $blue;
 
-  &-highlighted {
-    color: $yellow;
-  }
+    &-highlighted {
+        color: $yellow;
+    }
 }
 ```
 
@@ -112,8 +112,8 @@ This matches the common use-case for importing scss files from node_modules when
 - **Type**: `"all" | "camel" | "kebab" | "param" | "snake" | "dashes" | "none"`
 - **Default**: `"camel"`
 - **Examples**:
-  - `typed-scss-modules src --nameFormat camel`
-  - `typed-scss-modules src --nameFormat kebab --nameFormat dashes --exportType default`. In order to use multiple formatters, you must use `--exportType default`.
+    - `typed-scss-modules src --nameFormat camel`
+    - `typed-scss-modules src --nameFormat kebab --nameFormat dashes --exportType default`. In order to use multiple formatters, you must use `--exportType default`.
 
 The class naming format to use when converting the classes to type definitions.
 
@@ -147,11 +147,11 @@ Given the following SCSS:
 
 ```scss
 .text {
-  color: blue;
+    color: blue;
 
-  &-highlighted {
-    color: yellow;
-  }
+    &-highlighted {
+        color: yellow;
+    }
 }
 ```
 
@@ -168,11 +168,11 @@ Given the following SCSS:
 
 ```scss
 .text {
-  color: blue;
+    color: blue;
 
-  &-highlighted {
-    color: yellow;
-  }
+    &-highlighted {
+        color: yellow;
+    }
 }
 ```
 
@@ -180,8 +180,8 @@ The following type definitions will be generated:
 
 ```typescript
 export type Styles = {
-  text: string;
-  textHighlighted: string;
+    text: string;
+    textHighlighted: string;
 };
 
 export type ClassNames = keyof Styles;
@@ -217,7 +217,7 @@ Only default exports are affected by this command. This example will change the 
 
 ```typescript
 export type IStyles = {
-  // ...
+    // ...
 };
 ```
 
@@ -274,7 +274,7 @@ Will prepend a string to the top of your output files
 ```typescript
 // This is an example banner
 export type Styles = {
-  // ...
+    // ...
 };
 ```
 
@@ -292,9 +292,9 @@ It will use the relative path to the SCSS module from where this tool is execute
 
 ```json
 {
-  "compilerOptions": {
-    "rootDirs": [".", "__generated__"]
-  }
+    "compilerOptions": {
+        "rootDirs": [".", "__generated__"]
+    }
 }
 ```
 
@@ -318,18 +318,18 @@ The file can provide either a named `config` export or a default export.
 ```js
 // Example of a named export with some of the options sets.
 export const config = {
-  banner: "// customer banner",
-  exportType: "default",
-  exportTypeName: "TheClasses",
-  logLevel: "error",
+    banner: "// customer banner",
+    exportType: "default",
+    exportTypeName: "TheClasses",
+    logLevel: "error",
 };
 
 // Example of a default export with some of the options sets.
 export default {
-  banner: "// customer banner",
-  exportType: "default",
-  exportTypeName: "TheClasses",
-  logLevel: "error",
+    banner: "// customer banner",
+    exportType: "default",
+    exportTypeName: "TheClasses",
+    logLevel: "error",
 };
 ```
 

@@ -1,7 +1,8 @@
 import fs from "node:fs";
-import type { ConfigOptions } from "./index.ts";
+
 import { getTypeDefinitionPath } from "../typescript/index.ts";
 import { alerts } from "./alerts.ts";
+import type { ConfigOptions } from "./index.ts";
 
 /**
  * Given a single file remove the file
@@ -10,16 +11,16 @@ import { alerts } from "./alerts.ts";
  */
 
 const removeFile = (file: string): void => {
-  try {
-    if (fs.existsSync(file)) {
-      fs.unlinkSync(file);
-      alerts.success(`[REMOVED] ${file}`);
+    try {
+        if (fs.existsSync(file)) {
+            fs.unlinkSync(file);
+            alerts.success(`[REMOVED] ${file}`);
+        }
+    } catch (error) {
+        alerts.error(
+            `An error occurred removing ${file}:\n${JSON.stringify(error)}`,
+        );
     }
-  } catch (error) {
-    alerts.error(
-      `An error occurred removing ${file}:\n${JSON.stringify(error)}`
-    );
-  }
 };
 
 /**
@@ -28,9 +29,9 @@ const removeFile = (file: string): void => {
  * @param file the SCSS file to generate types for
  */
 export const removeSCSSTypeDefinitionFile = (
-  file: string,
-  options: ConfigOptions
+    file: string,
+    options: ConfigOptions,
 ): void => {
-  const path = getTypeDefinitionPath(file, options);
-  removeFile(path);
+    const path = getTypeDefinitionPath(file, options);
+    removeFile(path);
 };

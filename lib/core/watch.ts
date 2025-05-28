@@ -1,4 +1,5 @@
 import chokidar from "chokidar";
+
 import { alerts } from "./alerts.ts";
 import { listFilesAndPerformSanityChecks } from "./list-files-and-perform-sanity-checks.ts";
 import { removeSCSSTypeDefinitionFile } from "./remove-file.ts";
@@ -12,27 +13,27 @@ import { writeFile } from "./write-file.ts";
  * @param options the CLI options
  */
 export const watch = (pattern: string, options: ConfigOptions): void => {
-  listFilesAndPerformSanityChecks(pattern, options);
+    listFilesAndPerformSanityChecks(pattern, options);
 
-  alerts.success("Watching files...");
+    alerts.success("Watching files...");
 
-  chokidar
-    .watch(pattern, {
-      ignoreInitial: options.ignoreInitial,
-      ignored: options.ignore,
-    })
-    .on("change", (path) => {
-      alerts.info(`[CHANGED] ${path}`);
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      writeFile(path, options);
-    })
-    .on("add", (path) => {
-      alerts.info(`[ADDED] ${path}`);
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      writeFile(path, options);
-    })
-    .on("unlink", (path) => {
-      alerts.info(`[REMOVED] ${path}`);
-      removeSCSSTypeDefinitionFile(path, options);
-    });
+    chokidar
+        .watch(pattern, {
+            ignoreInitial: options.ignoreInitial,
+            ignored: options.ignore,
+        })
+        .on("change", (path) => {
+            alerts.info(`[CHANGED] ${path}`);
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
+            writeFile(path, options);
+        })
+        .on("add", (path) => {
+            alerts.info(`[ADDED] ${path}`);
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
+            writeFile(path, options);
+        })
+        .on("unlink", (path) => {
+            alerts.info(`[REMOVED] ${path}`);
+            removeSCSSTypeDefinitionFile(path, options);
+        });
 };
