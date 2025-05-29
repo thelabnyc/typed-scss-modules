@@ -1,5 +1,13 @@
 # Changelog
 
+## v8.2.0-b0 (2025-05-29)
+
+### Feat
+
+- migrate all sync IO to async IO
+- **deps**: update changeCase
+- **deps**: update glob v7 -> v11
+
 ## v8.2.0-a2 (2025-05-28)
 
 ## v8.2.0-a1 (2025-05-28)
