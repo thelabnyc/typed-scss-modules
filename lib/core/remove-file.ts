@@ -1,7 +1,8 @@
-import fs from "node:fs";
+import fs from "node:fs/promises";
 
 import { getTypeDefinitionPath } from "../typescript/index.ts";
 import { alerts } from "./alerts.ts";
+import { fileExists } from "./file-exists.ts";
 import type { ConfigOptions } from "./index.ts";
 
 /**
@@ -10,15 +11,15 @@ import type { ConfigOptions } from "./index.ts";
  * @param file any file to remove
  */
 
-const removeFile = (file: string): void => {
+const removeFile = async (file: string): Promise<void> => {
     try {
-        if (fs.existsSync(file)) {
-            fs.unlinkSync(file);
+        if (await fileExists(file)) {
+            await fs.unlink(file);
             alerts.success(`[REMOVED] ${file}`);
         }
     } catch (error) {
         alerts.error(
-            `An error occurred removing ${file}:\n${JSON.stringify(error)}`,
+            `An error occurred removing ${file}:\n${(error as Error).toString()}`,
         );
     }
 };
@@ -28,10 +29,10 @@ const removeFile = (file: string): void => {
  *
  * @param file the SCSS file to generate types for
  */
-export const removeSCSSTypeDefinitionFile = (
+export const removeSCSSTypeDefinitionFile = async (
     file: string,
     options: ConfigOptions,
-): void => {
+): Promise<void> => {
     const path = getTypeDefinitionPath(file, options);
-    removeFile(path);
+    await removeFile(path);
 };

@@ -1,4 +1,4 @@
-import fs, { PathOrFileDescriptor } from "node:fs";
+import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -12,15 +12,18 @@ const __dirname = path.dirname(__filename);
 describe("writeFile", () => {
     beforeEach(() => {
         // Only mock the write, so the example files can still be read.
-        jest.spyOn(fs, "writeFileSync").mockImplementation(() => null);
-
+        jest.spyOn(fs, "writeFile").mockImplementation(() => Promise.resolve());
         // Avoid creating new directories while running tests.
-        jest.spyOn(fs, "mkdirSync").mockImplementation(() => undefined);
-
+        jest.spyOn(fs, "mkdir").mockImplementation(() =>
+            Promise.resolve(undefined),
+        );
         // Test removing existing types.
-        jest.spyOn(fs, "unlinkSync").mockImplementation(() => null);
+        jest.spyOn(fs, "unlink").mockImplementation(() => Promise.resolve());
+        jest.spyOn(console, "log");
+    });
 
-        console.log = jest.fn();
+    afterEach(() => {
+        jest.resetAllMocks();
     });
 
     it("writes the corresponding type definitions for a file and logs", async () => {
@@ -51,7 +54,7 @@ describe("writeFile", () => {
             "__tests__/dummy-styles/style.scss.d.ts",
         );
 
-        expect(fs.writeFileSync).toHaveBeenCalledWith(
+        expect(fs.writeFile).toHaveBeenCalledWith(
             expectedPath,
             "export declare const someClass: string;\n",
         );
@@ -88,7 +91,7 @@ describe("writeFile", () => {
             "__tests__/dummy-styles/style.d.scss.ts",
         );
 
-        expect(fs.writeFileSync).toHaveBeenCalledWith(
+        expect(fs.writeFile).toHaveBeenCalledWith(
             expectedPath,
             "export declare const someClass: string;\n",
         );
@@ -120,7 +123,7 @@ describe("writeFile", () => {
             allowArbitraryExtensions: false,
         });
 
-        expect(fs.writeFileSync).not.toHaveBeenCalled();
+        expect(fs.writeFile).not.toHaveBeenCalled();
         expect(console.log).toHaveBeenCalledWith(
             expect.stringContaining(`[NO GENERATED TYPES] ${testFile}`),
         );
@@ -136,16 +139,16 @@ describe("writeFile", () => {
             process.cwd(),
             "__tests__/dummy-styles/empty.scss.d.ts",
         );
-        const originalExistsSync = fs.existsSync;
+        const originalExistsSync = fs.access;
 
         beforeEach(() => {
-            jest.spyOn(fs, "existsSync").mockImplementation((p) =>
-                p === existingTypes ? true : originalExistsSync(p),
+            jest.spyOn(fs, "access").mockImplementation((p) =>
+                p === existingTypes ? Promise.resolve() : originalExistsSync(p),
             );
         });
 
         afterEach(() => {
-            (fs.existsSync as jest.Mock).mockRestore();
+            (fs.access as jest.Mock).mockRestore();
         });
 
         it("removes existing type definitions if no classes are found", async () => {
@@ -165,7 +168,7 @@ describe("writeFile", () => {
                 allowArbitraryExtensions: false,
             });
 
-            expect(fs.unlinkSync).toHaveBeenCalledWith(existingTypes);
+            expect(fs.unlink).toHaveBeenCalledWith(existingTypes);
             expect(console.log).toHaveBeenCalledWith(
                 expect.stringContaining(`[REMOVED] ${existingTypes}`),
             );
@@ -201,7 +204,7 @@ describe("writeFile", () => {
                 "__generated__/__tests__/dummy-styles/style.scss.d.ts",
             );
 
-            expect(fs.writeFileSync).toHaveBeenCalledWith(
+            expect(fs.writeFile).toHaveBeenCalledWith(
                 expectedPath,
                 "export declare const someClass: string;\n",
             );
@@ -212,7 +215,7 @@ describe("writeFile", () => {
     });
 
     describe("when --updateStaleOnly is passed", () => {
-        const originalReadFileSync = fs.readFileSync;
+        const originalReadFile = fs.readFile;
         const testFile = path.resolve(
             __dirname,
             "..",
@@ -224,25 +227,29 @@ describe("writeFile", () => {
         );
 
         beforeEach(() => {
-            jest.spyOn(fs, "statSync");
-            jest.spyOn(fs, "existsSync");
-            jest.spyOn(fs, "readFileSync");
-            (fs.existsSync as jest.Mock).mockImplementation(() => true);
+            jest.spyOn(fs, "stat");
+            jest.spyOn(fs, "access");
+            jest.spyOn(fs, "readFile");
+            (fs.access as jest.Mock).mockImplementation(() =>
+                Promise.resolve(),
+            );
         });
 
         afterEach(() => {
-            (fs.statSync as jest.Mock).mockRestore();
-            (fs.existsSync as jest.Mock).mockRestore();
-            (fs.readFileSync as jest.Mock).mockRestore();
+            (fs.stat as jest.Mock).mockRestore();
+            (fs.access as jest.Mock).mockRestore();
+            (fs.readFile as jest.Mock).mockRestore();
         });
 
         it("skips stale files", async () => {
-            (fs.statSync as jest.Mock).mockImplementation((p) => ({
-                mtime:
-                    p === expectedPath
-                        ? new Date(2020, 0, 2)
-                        : new Date(2020, 0, 1),
-            }));
+            (fs.stat as jest.Mock).mockImplementation((p) =>
+                Promise.resolve({
+                    mtime:
+                        p === expectedPath
+                            ? new Date(2020, 0, 2)
+                            : new Date(2020, 0, 1),
+                }),
+            );
 
             await writeFile(testFile, {
                 banner: "",
@@ -260,24 +267,24 @@ describe("writeFile", () => {
                 allowArbitraryExtensions: false,
             });
 
-            expect(fs.writeFileSync).not.toHaveBeenCalled();
+            expect(fs.writeFile).not.toHaveBeenCalled();
         });
 
         it("updates files that aren't stale", async () => {
-            (fs.statSync as jest.Mock).mockImplementation(
-                () => new Date(2020, 0, 1),
+            (fs.stat as jest.Mock).mockImplementation(() =>
+                Promise.resolve(new Date(2020, 0, 1)),
             );
 
             // Mock outdated file contents.
-            (fs.readFileSync as jest.Mock).mockImplementation(
+            (fs.readFile as jest.Mock).mockImplementation(
                 // @ts-expect-error Mock args
                 (
-                    p: PathOrFileDescriptor,
+                    p: string,
                     opts?: {
                         encoding?: null | undefined;
                         flag?: string | undefined;
                     } | null,
-                ) => (p === expectedPath ? `` : originalReadFileSync(p, opts)),
+                ) => (p === expectedPath ? `` : originalReadFile(p, opts)),
             );
 
             await writeFile(testFile, {
@@ -296,12 +303,12 @@ describe("writeFile", () => {
                 allowArbitraryExtensions: false,
             });
 
-            expect(fs.writeFileSync).toHaveBeenCalled();
+            expect(fs.writeFile).toHaveBeenCalled();
         });
 
         it("skips files that aren't stale but type definition contents haven't changed", async () => {
-            (fs.statSync as jest.Mock).mockImplementation(
-                () => new Date(2020, 0, 1),
+            (fs.stat as jest.Mock).mockImplementation(() =>
+                Promise.resolve(new Date(2020, 0, 1)),
             );
 
             await writeFile(testFile, {
@@ -320,11 +327,13 @@ describe("writeFile", () => {
                 allowArbitraryExtensions: false,
             });
 
-            expect(fs.writeFileSync).not.toHaveBeenCalled();
+            expect(fs.writeFile).not.toHaveBeenCalled();
         });
 
         it("doesn't attempt to access a non-existent file", async () => {
-            (fs.existsSync as jest.Mock).mockImplementation(() => false);
+            (fs.access as jest.Mock).mockImplementation(() =>
+                Promise.reject(new Error()),
+            );
 
             await writeFile(testFile, {
                 banner: "",
@@ -342,7 +351,7 @@ describe("writeFile", () => {
                 allowArbitraryExtensions: false,
             });
 
-            expect(fs.statSync).not.toHaveBeenCalledWith(testFile);
+            expect(fs.access).not.toHaveBeenCalledWith(testFile);
         });
     });
 });

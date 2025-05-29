@@ -12,8 +12,11 @@ import { writeFile } from "./write-file.ts";
  * @param pattern the file pattern to watch for file changes or additions
  * @param options the CLI options
  */
-export const watch = (pattern: string, options: ConfigOptions): void => {
-    listFilesAndPerformSanityChecks(pattern, options);
+export const watch = async (
+    pattern: string,
+    options: ConfigOptions,
+): Promise<void> => {
+    await listFilesAndPerformSanityChecks(pattern, options);
 
     alerts.success("Watching files...");
 
@@ -34,6 +37,8 @@ export const watch = (pattern: string, options: ConfigOptions): void => {
         })
         .on("unlink", (path) => {
             alerts.info(`[REMOVED] ${path}`);
-            removeSCSSTypeDefinitionFile(path, options);
+            removeSCSSTypeDefinitionFile(path, options).catch((err) => {
+                console.error(err);
+            });
         });
 };

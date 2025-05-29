@@ -10,7 +10,7 @@ import type {
 export type { Importer, FileImporter };
 
 export type AnyImporter = Exclude<
-    Options<"sync">["importers"],
+    Options<"sync">["importers"] | Options<"async">["importers"],
     undefined
 >[number];
 

@@ -1,4 +1,4 @@
-import fs from "node:fs";
+import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -23,21 +23,24 @@ describe("removeFile", () => {
         "__generated__/__tests__/removable.scss.d.ts",
     );
 
-    let existsSpy: jest.SpiedFunction<typeof fs.exists>;
-    let unlinkSpy: jest.SpiedFunction<typeof fs.unlinkSync>;
+    let accessSpy: jest.SpiedFunction<typeof fs.access>;
+    let unlinkSpy: jest.SpiedFunction<typeof fs.unlink>;
     let alertsSpy: jest.SpiedFunction<typeof alerts.success>;
 
     beforeEach(() => {
-        existsSpy = jest
-            .spyOn(fs, "existsSync")
-            .mockImplementation(
-                (path) =>
-                    path === existingTypes ||
-                    path === existingFile ||
-                    path === outputFolderExistingTypes,
+        accessSpy = jest
+            .spyOn(fs, "access")
+            .mockImplementation((path) =>
+                path === existingTypes ||
+                path === existingFile ||
+                path === outputFolderExistingTypes
+                    ? Promise.resolve()
+                    : Promise.reject(new Error()),
             );
 
-        unlinkSpy = jest.spyOn(fs, "unlinkSync").mockImplementation(() => null);
+        unlinkSpy = jest
+            .spyOn(fs, "unlink")
+            .mockImplementation(() => Promise.resolve());
 
         alertsSpy = jest
             .spyOn(alerts, "success")
@@ -48,30 +51,33 @@ describe("removeFile", () => {
         jest.clearAllMocks();
     });
 
-    it("does nothing if types file doesn't exist", () => {
+    it("does nothing if types file doesn't exist", async () => {
         const nonExistingFile = path.resolve(__dirname, "..", "deleted.scss");
         const nonExistingTypes = path.join(
             process.cwd(),
             "__tests__/deleted.scss.d.ts",
         );
 
-        removeSCSSTypeDefinitionFile(nonExistingFile, DEFAULT_OPTIONS);
+        await removeSCSSTypeDefinitionFile(nonExistingFile, DEFAULT_OPTIONS);
 
-        expect(existsSpy).toHaveBeenCalledWith(
+        expect(accessSpy).toHaveBeenCalledWith(
             expect.stringMatching(nonExistingFile),
+            0,
         );
-        expect(existsSpy).toHaveBeenCalledWith(
+        expect(accessSpy).toHaveBeenCalledWith(
             expect.stringMatching(nonExistingTypes),
+            0,
         );
         expect(unlinkSpy).not.toHaveBeenCalled();
         expect(alertsSpy).not.toHaveBeenCalled();
     });
 
-    it("removes *.scss.d.ts types file for *.scss", () => {
-        removeSCSSTypeDefinitionFile(originalTestFile, DEFAULT_OPTIONS);
+    it("removes *.scss.d.ts types file for *.scss", async () => {
+        await removeSCSSTypeDefinitionFile(originalTestFile, DEFAULT_OPTIONS);
 
-        expect(existsSpy).toHaveBeenCalledWith(
+        expect(accessSpy).toHaveBeenCalledWith(
             expect.stringMatching(existingTypes),
+            0,
         );
         expect(unlinkSpy).toHaveBeenCalled();
         expect(unlinkSpy).toHaveBeenCalledWith(
@@ -81,14 +87,15 @@ describe("removeFile", () => {
     });
 
     describe("when outputFolder is passed", () => {
-        it("removes the correct files", () => {
-            removeSCSSTypeDefinitionFile(originalTestFile, {
+        it("removes the correct files", async () => {
+            await removeSCSSTypeDefinitionFile(originalTestFile, {
                 ...DEFAULT_OPTIONS,
                 outputFolder: "__generated__",
             });
 
-            expect(existsSpy).toHaveBeenCalledWith(
+            expect(accessSpy).toHaveBeenCalledWith(
                 expect.stringMatching(outputFolderExistingTypes),
+                0,
             );
             expect(unlinkSpy).toHaveBeenCalled();
             expect(unlinkSpy).toHaveBeenCalledWith(

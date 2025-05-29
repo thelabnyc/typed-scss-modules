@@ -13,8 +13,7 @@ export const generate = async (
     pattern: string,
     options: ConfigOptions,
 ): Promise<void> => {
-    const files = listFilesAndPerformSanityChecks(pattern, options);
-
+    const files = await listFilesAndPerformSanityChecks(pattern, options);
     if (files.length === 0) {
         return;
     }

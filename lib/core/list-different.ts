@@ -1,4 +1,4 @@
-import fs from "node:fs";
+import fs from "node:fs/promises";
 
 import { fileToClassNames } from "../sass/index.ts";
 import {
@@ -6,6 +6,7 @@ import {
     getTypeDefinitionPath,
 } from "../typescript/index.ts";
 import { alerts } from "./alerts.ts";
+import { fileExists } from "./file-exists.ts";
 import { listFilesAndPerformSanityChecks } from "./list-files-and-perform-sanity-checks.ts";
 import type { ConfigOptions } from "./types.ts";
 
@@ -27,14 +28,14 @@ export const checkFile = async (
         }
 
         const path = getTypeDefinitionPath(file, options);
-        if (!fs.existsSync(path)) {
+        if (!(await fileExists(path))) {
             alerts.error(
                 `[INVALID TYPES] Type file needs to be generated for ${file} `,
             );
             return false;
         }
 
-        const content = fs.readFileSync(path, { encoding: "utf8" });
+        const content = await fs.readFile(path, { encoding: "utf8" });
         if (content !== typeDefinition) {
             alerts.error(`[INVALID TYPES] Check type definitions for ${file}`);
             return false;
@@ -53,7 +54,7 @@ export const listDifferent = async (
     pattern: string,
     options: ConfigOptions,
 ): Promise<void> => {
-    const files = listFilesAndPerformSanityChecks(pattern, options);
+    const files = await listFilesAndPerformSanityChecks(pattern, options);
 
     // Wait for all the files to be checked.
     const validChecks = await Promise.all(

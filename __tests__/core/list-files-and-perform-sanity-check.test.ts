@@ -30,20 +30,20 @@ describe("listAllFilesAndPerformSanityCheck", () => {
         console.log = jest.fn();
     });
 
-    it("prints a warning if the pattern matches 0 files", () => {
+    it("prints a warning if the pattern matches 0 files", async () => {
         const pattern = `${__dirname}/list-different/test.txt`;
 
-        listFilesAndPerformSanityChecks(pattern, options);
+        await listFilesAndPerformSanityChecks(pattern, options);
 
         expect(console.log).toHaveBeenCalledWith(
             expect.stringContaining("No files found."),
         );
     });
 
-    it("prints a warning if the pattern matches 1 file", () => {
+    it("prints a warning if the pattern matches 1 file", async () => {
         const pattern = `${__dirname}/list-different/formatted.scss`;
 
-        listFilesAndPerformSanityChecks(pattern, options);
+        await listFilesAndPerformSanityChecks(pattern, options);
 
         expect(console.log).toHaveBeenCalledWith(
             expect.stringContaining("Only 1 file found for"),

@@ -1,4 +1,4 @@
-import fs from "node:fs";
+import fs from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 
 import { camelCase, kebabCase, snakeCase } from "change-case";
@@ -41,7 +41,11 @@ export interface SASSOptions extends SASSImporterOptions {
     includePaths?: string[];
     nameFormat?: string | string[];
 }
+
 export const nameFormatDefault: NameFormatWithTransformer = "camel";
+
+type CommonCompileOpts = Parameters<typeof sass.compileStringAsync>[1] &
+    Parameters<typeof sass.compileAsync>[1];
 
 export const fileToClassNames = async (
     file: string,
@@ -66,19 +70,18 @@ export const fileToClassNames = async (
         : [nameFormatDefault];
 
     const fileContents = additionalData
-        ? `${additionalData}\n${fs.readFileSync(file).toString()}`
+        ? `${additionalData}\n${(await fs.readFile(file)).toString()}`
         : null;
-    const compileOpts: Parameters<typeof sass.compileString>[1] &
-        Parameters<typeof sass.compile>[1] = {
+    const compileOpts: CommonCompileOpts = {
         loadPaths: includePaths,
         importers: customImporters({ aliases, aliasPrefixes, importers }),
     };
-    const result = fileContents
-        ? sass.compileString(fileContents, {
+    const result = await (fileContents
+        ? sass.compileStringAsync(fileContents, {
               ...compileOpts,
               url: pathToFileURL(file),
           })
-        : sass.compile(file, compileOpts);
+        : sass.compileAsync(file, compileOpts));
 
     const classNames = await sourceToClassNames(result.css, file);
     const transformers = nameFormats.map((item) => transformersMap[item]);

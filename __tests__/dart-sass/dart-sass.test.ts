@@ -1,4 +1,4 @@
-import fs from "node:fs";
+import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -12,16 +12,18 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 describe("dart-sass", () => {
-    let writeFileSyncSpy: jest.SpiedFunction<typeof fs.writeFileSync>;
+    let writeFileSpy: jest.SpiedFunction<typeof fs.writeFile>;
 
     beforeEach(() => {
         // Only mock the writes, so the example files can still be read.
-        writeFileSyncSpy = jest
-            .spyOn(fs, "writeFileSync")
-            .mockImplementation(() => null);
+        writeFileSpy = jest
+            .spyOn(fs, "writeFile")
+            .mockImplementation(() => Promise.resolve());
 
         // Avoid creating directories while running tests.
-        jest.spyOn(fs, "mkdirSync").mockImplementation(() => undefined);
+        jest.spyOn(fs, "mkdir").mockImplementation(() =>
+            Promise.resolve(undefined),
+        );
 
         // Avoid console logs showing up.
         jest.spyOn(console, "log").mockImplementation(() => null);
@@ -30,7 +32,7 @@ describe("dart-sass", () => {
     });
 
     afterEach(() => {
-        writeFileSyncSpy.mockReset();
+        writeFileSpy.mockReset();
     });
 
     it("@use support", async () => {
@@ -59,11 +61,11 @@ describe("dart-sass", () => {
         });
 
         expect(alerts.error).not.toHaveBeenCalled();
-        expect(fs.writeFileSync).toHaveBeenCalledTimes(1);
+        expect(fs.writeFile).toHaveBeenCalledTimes(1);
 
         const expectedDirname = slash(__dirname);
 
-        expect(fs.writeFileSync).toHaveBeenCalledWith(
+        expect(fs.writeFile).toHaveBeenCalledWith(
             `${expectedDirname}/use.scss.d.ts`,
             "export declare const foo: string;\n",
         );

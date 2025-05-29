@@ -1,4 +1,4 @@
-import fs from "node:fs";
+import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -11,9 +11,11 @@ const __dirname = path.dirname(__filename);
 
 describe("generate", () => {
     beforeEach(() => {
-        // Only mock the write, so the example files can still be read.
-        fs.writeFileSync = jest.fn();
-        console.log = jest.fn(); // avoid console logs showing up
+        jest.spyOn(fs, "writeFile").mockImplementation(() => Promise.resolve());
+    });
+
+    afterEach(() => {
+        jest.resetAllMocks();
     });
 
     it("generates types for all files matching the pattern", async () => {
@@ -35,6 +37,6 @@ describe("generate", () => {
             allowArbitraryExtensions: false,
         });
 
-        expect(fs.writeFileSync).toHaveBeenCalledTimes(6);
+        expect(fs.writeFile).toHaveBeenCalledTimes(6);
     });
 });

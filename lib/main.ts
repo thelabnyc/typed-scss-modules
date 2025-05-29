@@ -41,7 +41,7 @@ export const main = async (
     }
 
     if (options.watch) {
-        watch(pattern, options);
+        await watch(pattern, options);
     } else {
         await generate(pattern, options);
     }

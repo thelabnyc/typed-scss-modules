@@ -1,4 +1,4 @@
-import fs from "node:fs";
+import fs from "node:fs/promises";
 import path from "node:path";
 
 import { fileToClassNames } from "../sass/index.ts";
@@ -7,6 +7,7 @@ import {
     getTypeDefinitionPath,
 } from "../typescript/index.ts";
 import { alerts } from "./alerts.ts";
+import { fileExists } from "./file-exists.ts";
 import { removeSCSSTypeDefinitionFile } from "./remove-file.ts";
 import type { CLIOptions } from "./types.ts";
 
@@ -29,13 +30,13 @@ export const writeFile = async (
         });
 
         const typesPath = getTypeDefinitionPath(file, options);
-        const typesExist = fs.existsSync(typesPath);
+        const typesExist = await fileExists(typesPath);
 
         // Avoid outputting empty type definition files.
         // If the file exists and the type definition is now empty, remove the file.
         if (!typeDefinition) {
             if (typesExist) {
-                removeSCSSTypeDefinitionFile(file, options);
+                await removeSCSSTypeDefinitionFile(file, options);
             } else {
                 alerts.notice(`[NO GENERATED TYPES] ${file}`);
             }
@@ -46,14 +47,13 @@ export const writeFile = async (
         // First by checking the file modification time, then
         // by comparing the file contents.
         if (options.updateStaleOnly && typesExist) {
-            const fileModified = fs.statSync(file).mtime;
-            const typeDefinitionModified = fs.statSync(typesPath).mtime;
-
+            const fileModified = (await fs.stat(file)).mtime;
+            const typeDefinitionModified = (await fs.stat(typesPath)).mtime;
             if (fileModified < typeDefinitionModified) {
                 return;
             }
 
-            const existingTypeDefinition = fs.readFileSync(typesPath, "utf8");
+            const existingTypeDefinition = await fs.readFile(typesPath, "utf8");
             if (existingTypeDefinition === typeDefinition) {
                 return;
             }
@@ -63,11 +63,8 @@ export const writeFile = async (
         // be nested to match the project structure so it's possible
         // there are multiple directories that need to be created.
         const dirname = path.dirname(typesPath);
-        if (!fs.existsSync(dirname)) {
-            fs.mkdirSync(dirname, { recursive: true });
-        }
-
-        fs.writeFileSync(typesPath, typeDefinition);
+        await fs.mkdir(dirname, { recursive: true });
+        await fs.writeFile(typesPath, typeDefinition);
         alerts.success(`[GENERATED TYPES] ${typesPath}`);
     } catch (error) {
         alerts.error(
