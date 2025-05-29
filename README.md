@@ -22,32 +22,24 @@ For example, given the following SCSS:
 
 The following type definitions will be generated:
 
-```typescript
+```ts
 export declare const text: string;
 export declare const textHighlighted: string;
 ```
 
 ## Basic Usage
 
-Install and run as a `devDependency`:
+Install & use:
 
-```bash
-yarn add -D typed-scss-modules
-yarn typed-scss-modules src
-```
-
-Or, install globally:
-
-```bash
-yarn global add typed-scss-modules
-typed-scss-modules src
-```
-
-Or, with npm:
-
-```bash
-npm install -D typed-scss-modules
+```sh
+npm install --save-dev @thelabnyc/typed-scss-modules
 npx typed-scss-modules src
+```
+
+Or:
+
+```sh
+npx @thelabnyc/typed-scss-modules
 ```
 
 ## CLI Options
@@ -363,46 +355,3 @@ For examples of how this tool can be used and configured, see the `examples` dir
 - [Basic example](/examples/basic)
 - [Default export example](/examples/default-export)
 - [Config file (with custom importer) example](/examples/config-file)
-
-## Contributors ✨
-
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dawnmist"><img src="https://avatars3.githubusercontent.com/u/5810277?v=4?s=100" width="100px;" alt="Janeene Beeforth"/><br /><sub><b>Janeene Beeforth</b></sub></a><br /><a href="https://github.com/skovy/typed-scss-modules/issues?q=author%3Adawnmist" title="Bug reports">🐛</a> <a href="https://github.com/skovy/typed-scss-modules/commits?author=dawnmist" title="Code">💻</a> <a href="https://github.com/skovy/typed-scss-modules/commits?author=dawnmist" title="Documentation">📖</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ericbf"><img src="https://avatars0.githubusercontent.com/u/2483476?v=4?s=100" width="100px;" alt="Eric Ferreira"/><br /><sub><b>Eric Ferreira</b></sub></a><br /><a href="https://github.com/skovy/typed-scss-modules/commits?author=ericbf" title="Code">💻</a> <a href="https://github.com/skovy/typed-scss-modules/commits?author=ericbf" title="Documentation">📖</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/lkarmelo"><img src="https://avatars2.githubusercontent.com/u/20393808?v=4?s=100" width="100px;" alt="Luis Lopes"/><br /><sub><b>Luis Lopes</b></sub></a><br /><a href="https://github.com/skovy/typed-scss-modules/commits?author=lkarmelo" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://nostalg.io"><img src="https://avatars0.githubusercontent.com/u/5139752?v=4?s=100" width="100px;" alt="Josh Wedekind"/><br /><sub><b>Josh Wedekind</b></sub></a><br /><a href="https://github.com/skovy/typed-scss-modules/commits?author=halfnibble" title="Code">💻</a> <a href="https://github.com/skovy/typed-scss-modules/commits?author=halfnibble" title="Documentation">📖</a> <a href="https://github.com/skovy/typed-scss-modules/commits?author=halfnibble" title="Tests">⚠️</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/peanutbother"><img src="https://avatars3.githubusercontent.com/u/6437182?v=4?s=100" width="100px;" alt="Jared Gesser"/><br /><sub><b>Jared Gesser</b></sub></a><br /><a href="#ideas-peanutbother" title="Ideas, Planning, & Feedback">🤔</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/raphael-leger"><img src="https://avatars1.githubusercontent.com/u/12732777?v=4?s=100" width="100px;" alt="Raphaël L"/><br /><sub><b>Raphaël L</b></sub></a><br /><a href="https://github.com/skovy/typed-scss-modules/commits?author=raphael-leger" title="Code">💻</a> <a href="#ideas-raphael-leger" title="Ideas, Planning, & Feedback">🤔</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://NickTheSick.com"><img src="https://avatars1.githubusercontent.com/u/1852538?v=4?s=100" width="100px;" alt="Nick Perez"/><br /><sub><b>Nick Perez</b></sub></a><br /><a href="https://github.com/skovy/typed-scss-modules/issues?q=author%3Anperez0111" title="Bug reports">🐛</a> <a href="https://github.com/skovy/typed-scss-modules/commits?author=nperez0111" title="Code">💻</a></td>
-    </tr>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://alander.org"><img src="https://avatars3.githubusercontent.com/u/1771462?v=4?s=100" width="100px;" alt="Even Alander"/><br /><sub><b>Even Alander</b></sub></a><br /><a href="https://github.com/skovy/typed-scss-modules/commits?author=deificx" title="Code">💻</a> <a href="https://github.com/skovy/typed-scss-modules/commits?author=deificx" title="Tests">⚠️</a> <a href="#ideas-deificx" title="Ideas, Planning, & Feedback">🤔</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="http://inkblotty.github.io"><img src="https://avatars3.githubusercontent.com/u/14206003?v=4?s=100" width="100px;" alt="Katie Foster"/><br /><sub><b>Katie Foster</b></sub></a><br /><a href="https://github.com/skovy/typed-scss-modules/commits?author=inkblotty" title="Code">💻</a> <a href="https://github.com/skovy/typed-scss-modules/commits?author=inkblotty" title="Tests">⚠️</a> <a href="https://github.com/skovy/typed-scss-modules/commits?author=inkblotty" title="Documentation">📖</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ccortezaguilera"><img src="https://avatars3.githubusercontent.com/u/10718803?v=4?s=100" width="100px;" alt="Carlos Aguilera"/><br /><sub><b>Carlos Aguilera</b></sub></a><br /><a href="https://github.com/skovy/typed-scss-modules/commits?author=ccortezaguilera" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/craigrmccown"><img src="https://avatars1.githubusercontent.com/u/2373979?v=4?s=100" width="100px;" alt="Craig McCown"/><br /><sub><b>Craig McCown</b></sub></a><br /><a href="#ideas-craigrmccown" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/skovy/typed-scss-modules/commits?author=craigrmccown" title="Code">💻</a> <a href="https://github.com/skovy/typed-scss-modules/commits?author=craigrmccown" title="Tests">⚠️</a> <a href="https://github.com/skovy/typed-scss-modules/commits?author=craigrmccown" title="Documentation">📖</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/capsuleman"><img src="https://avatars.githubusercontent.com/u/34281913?v=4?s=100" width="100px;" alt="Guillaume Vagner"/><br /><sub><b>Guillaume Vagner</b></sub></a><br /><a href="https://github.com/skovy/typed-scss-modules/commits?author=capsuleman" title="Code">💻</a> <a href="https://github.com/skovy/typed-scss-modules/commits?author=capsuleman" title="Tests">⚠️</a> <a href="https://github.com/skovy/typed-scss-modules/issues?q=author%3Acapsuleman" title="Bug reports">🐛</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://dev.to/srmagura"><img src="https://avatars.githubusercontent.com/u/801549?v=4?s=100" width="100px;" alt="Sam Magura"/><br /><sub><b>Sam Magura</b></sub></a><br /><a href="https://github.com/skovy/typed-scss-modules/commits?author=srmagura" title="Code">💻</a> <a href="https://github.com/skovy/typed-scss-modules/commits?author=srmagura" title="Tests">⚠️</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/MichaelGregory"><img src="https://avatars.githubusercontent.com/u/1435960?v=4?s=100" width="100px;" alt="Mike Gregory"/><br /><sub><b>Mike Gregory</b></sub></a><br /><a href="https://github.com/skovy/typed-scss-modules/issues?q=author%3AMichaelGregory" title="Bug reports">🐛</a> <a href="https://github.com/skovy/typed-scss-modules/commits?author=MichaelGregory" title="Code">💻</a> <a href="https://github.com/skovy/typed-scss-modules/commits?author=MichaelGregory" title="Tests">⚠️</a></td>
-    </tr>
-  </tbody>
-</table>
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
-
-## Alternatives
-
-This package was heavily influenced on [typed-css-modules](https://github.com/Quramy/typed-css-modules) which generates TypeScript definitions (`.d.ts`) files for CSS Modules that are written in CSS (`.css`).
-
-This package is currently used as a CLI. There are also [packages that generate types as a webpack loader](https://github.com/Jimdo/typings-for-css-modules-loader).
