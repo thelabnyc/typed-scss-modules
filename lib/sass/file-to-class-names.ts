@@ -1,12 +1,7 @@
 import fs from "node:fs";
 import { pathToFileURL } from "node:url";
 
-import {
-    camelCase,
-    camelCaseTransformMerge,
-    paramCase,
-    snakeCase,
-} from "change-case";
+import { camelCase, kebabCase, snakeCase } from "change-case";
 import * as sass from "sass";
 
 import {
@@ -24,12 +19,12 @@ interface Transformer {
 
 const transformersMap = {
     camel: (className: ClassName) =>
-        camelCase(className, { transform: camelCaseTransformMerge }),
+        camelCase(className, { mergeAmbiguousCharacters: true }),
     dashes: (className: ClassName) =>
         /-/.test(className) ? camelCase(className) : className,
-    kebab: (className: ClassName) => transformersMap.param(className),
+    kebab: (className: ClassName) => kebabCase(className),
     none: (className: ClassName) => className,
-    param: (className: ClassName) => paramCase(className),
+    param: (className: ClassName) => kebabCase(className),
     snake: (className: ClassName) => snakeCase(className),
 } as const;
 
