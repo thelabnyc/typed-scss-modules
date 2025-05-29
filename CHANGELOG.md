@@ -1,5 +1,12 @@
 # Changelog
 
+## v8.2.0 (2025-05-29)
+
+### Fix
+
+- remove npmrc file now that @thelabnyc/standards is on NPM also
+- **deps**: remove @types/sass
+
 ## v8.2.0-b0 (2025-05-29)
 
 ### Feat
