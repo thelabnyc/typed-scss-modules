@@ -8,7 +8,7 @@ export const config = {
     banner: "// config file banner",
     nameFormat: "kebab",
     exportType: "default",
-    importer: jsonImporter(),
+    importer: [jsonImporter()],
 };
 
 function jsonImporter() {
