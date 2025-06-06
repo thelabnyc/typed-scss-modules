@@ -8,36 +8,53 @@ export const config = {
     banner: "// config file banner",
     nameFormat: "kebab",
     exportType: "default",
-    importer: jsonImporter,
+    importer: jsonImporter(),
 };
 
-function jsonImporter(url, prev) {
-    if (!url.endsWith(".json")) {
-        return null;
-    }
+function jsonImporter() {
+    return {
+        canonicalize(url, context) {
+            if (!url.endsWith(".json")) {
+                return null;
+            }
 
-    const baseDir =
-        prev === "stdin" || !path.isAbsolute(prev)
-            ? process.cwd()
-            : path.dirname(prev);
+            const baseDir = context.containingUrl
+                ? path.dirname(context.containingUrl.pathname)
+                : process.cwd();
 
-    const fullPath = path.resolve(baseDir, url);
+            const fullPath = path.resolve(baseDir, url);
 
-    if (!fs.existsSync(fullPath)) {
-        return null;
-    }
+            if (!fs.existsSync(fullPath)) {
+                return null;
+            }
 
-    try {
-        const json = JSON.parse(fs.readFileSync(fullPath, "utf8"));
+            try {
+                return new URL(`file://${fullPath}`);
+            } catch (err) {
+                throw new Error(
+                    `Failed to canonicalize JSON from ${url}: ${err}`,
+                );
+            }
+        },
 
-        const scss = Object.entries(json)
-            .map(([key, value]) => `$${key}: ${JSON.stringify(value)};`)
-            .join("\n");
+        load(canonicalUrl) {
+            try {
+                const filePath = canonicalUrl.pathname;
+                const json = JSON.parse(fs.readFileSync(filePath, "utf8"));
 
-        return {
-            contents: scss,
-        };
-    } catch (err) {
-        return new Error(`Failed to load JSON from ${url}: ${err}`);
-    }
+                const scss = Object.entries(json)
+                    .map(([key, value]) => `$${key}: ${JSON.stringify(value)};`)
+                    .join("\n");
+
+                return {
+                    contents: scss,
+                    syntax: "scss",
+                };
+            } catch (err) {
+                throw new Error(
+                    `Failed to load JSON from ${canonicalUrl}: ${err}`,
+                );
+            }
+        },
+    };
 }
