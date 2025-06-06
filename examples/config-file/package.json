@@ -1,0 +1,7 @@
+{
+  "name": "config-file-example",
+  "private": true,
+  "scripts": {
+    "typed-scss-modules": "tsx ../../lib/cli.ts"
+  }
+}
