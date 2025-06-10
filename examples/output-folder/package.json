@@ -1,0 +1,7 @@
+{
+  "name": "output-folder-example",
+  "private": true,
+  "scripts": {
+    "typed-scss-modules": "tsx ../../lib/cli.ts"
+  }
+}
