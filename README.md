@@ -296,6 +296,16 @@ It will use the relative path to the SCSS module from where this tool is execute
 
 Prepend the provided SCSS code before each file. This is useful for injecting globals into every file, such as adding an import to load global variables for each file.
 
+### `--allowArbitraryExtensions`
+
+- **Type**: `boolean`
+- **Default**: `false`
+- **Example**: `typed-scss-modules src --allowArbitraryExtensions`
+
+Output filenames that will be compatible with the "arbitrary file extensions" feature that was introduced in TypeScript 5.0. See [the docs](https://www.typescriptlang.org/tsconfig#allowArbitraryExtensions) for more info.
+
+In essence, the `*.scss.d.ts` extension now becomes `*.d.scss.ts` so that you can import SCSS modules in projects using ESM module resolution.
+
 ## Config options
 
 All options above are also supported as a configuration file in the root of the project. The following configuration file names are supported:
@@ -337,16 +347,6 @@ In addition to all CLI options, the following are options only available with th
 Define a [single custom SASS importer or an array of SASS importers](https://github.com/sass/sass/blob/f355f602fc15f55b0a0a795ebe6eb819963e08a5/js-api-doc/legacy/importer.d.ts#L51-L149). This should only be necessary if custom SASS importers are already being used in the build process. This is used internally to implement `aliases` and `aliasPrefixes`.
 
 Refer to [`lib/sass/importer.ts`](/blob/master/lib/sass/importer.ts) for more details and the `sass` importer type definition.
-
-### `--allowArbitraryExtensions`
-
-- **Type**: `boolean`
-- **Default**: `false`
-- **Example**: `typed-scss-modules src --allowArbitraryExtensions`
-
-Output filenames that will be compatible with the "arbitrary file extensions" feature that was introduced in TypeScript 5.0. See [the docs](https://www.typescriptlang.org/tsconfig#allowArbitraryExtensions) for more info.
-
-In essence, the `*.scss.d.ts` extension now becomes `*.d.scss.ts` so that you can import SCSS modules in projects using ESM module resolution.
 
 ## Examples
 
