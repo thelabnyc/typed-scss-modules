@@ -355,3 +355,4 @@ For examples of how this tool can be used and configured, see the `examples` dir
 - [Basic example](/examples/basic)
 - [Default export example](/examples/default-export)
 - [Config file (with custom importer) example](/examples/config-file)
+- [Output folder example](/examples/output-folder)
