@@ -1,5 +1,12 @@
 # Changelog
 
+## v8.2.1 (2025-06-11)
+
+### Fix
+
+- reflect `includePaths` into alias resolution
+- resolve `importers` interface mismatches
+
 ## v8.2.0 (2025-05-29)
 
 ### Fix
