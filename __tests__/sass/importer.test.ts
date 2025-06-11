@@ -44,6 +44,29 @@ describe("#aliasImporter", () => {
         expect(importer.findFileUrl("input-substring-abc", context)).toBeNull();
         expect(importer.findFileUrl("other", context)).toBeNull();
     });
+
+    it("should create an importer to resolve aliases using includePaths first", () => {
+        const includePath1 = "__tests__/dummy-styles/include-path-1";
+        const includePath2 = "__tests__/dummy-styles/include-path-2";
+
+        const importer = new AliasImporter({
+            aliases: {
+                "~variables": "variables.scss",
+                "~mixins": "mixins.scss",
+            },
+            aliasPrefixes: {},
+            includePaths: [includePath1, includePath2],
+        });
+
+        expect(importer.findFileUrl("~variables", context)?.pathname).toContain(
+            `${includePath1}/variables.scss`,
+        );
+        expect(importer.findFileUrl("~mixins", context)?.pathname).toContain(
+            `${includePath2}/mixins.scss`,
+        );
+
+        expect(importer.findFileUrl("@nonexistent", context)).toBeNull();
+    });
 });
 
 describe("#customImporters", () => {

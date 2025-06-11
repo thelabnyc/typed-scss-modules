@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import { pathToFileURL } from "node:url";
 
 import type {
@@ -21,6 +22,7 @@ export interface Aliases {
 interface AliasImporterOptions {
     aliases: Aliases;
     aliasPrefixes: Aliases;
+    includePaths?: string[];
 }
 
 export class AliasImporter implements FileImporter<"sync"> {
@@ -34,17 +36,38 @@ export class AliasImporter implements FileImporter<"sync"> {
         url: string,
         ctx: CanonicalizeContext,
     ): URL | null => {
-        const basePath = ctx.containingUrl || pathToFileURL("node_modules");
-
         if (url in this.opts.aliases) {
             const file = this.opts.aliases[url];
-            return new URL(file, basePath);
+
+            // Try to resolve using includePaths first
+            if (this.opts.includePaths && this.opts.includePaths.length > 0) {
+                for (const includePath of this.opts.includePaths) {
+                    const basePath = pathToFileURL(includePath + "/");
+                    const resolvedUrl = new URL(file, basePath);
+
+                    const filePath = resolvedUrl.pathname;
+                    if (
+                        fs.existsSync(filePath) ||
+                        fs.existsSync(filePath + ".scss")
+                    ) {
+                        return resolvedUrl;
+                    }
+                }
+            }
+
+            // Fallback to resolve relative to the containing file's directory
+            const basePath = ctx.containingUrl
+                ? new URL("./", ctx.containingUrl)
+                : pathToFileURL(process.cwd() + "/");
+            const resolvedUrl = new URL(file, basePath);
+            return resolvedUrl;
         }
 
         const prefixMatch = Object.keys(this.opts.aliasPrefixes).find(
             (prefix) => url.startsWith(prefix),
         );
         if (prefixMatch) {
+            const basePath = ctx.containingUrl || pathToFileURL("node_modules");
             return new URL(
                 this.opts.aliasPrefixes[prefixMatch] +
                     url.substr(prefixMatch.length),
@@ -60,6 +83,7 @@ export interface SASSImporterOptions {
     aliases?: Aliases;
     aliasPrefixes?: Aliases;
     importers?: AnyImporter[];
+    includePaths?: string[];
 }
 
 /**
@@ -73,6 +97,7 @@ export const customImporters = (opts: SASSImporterOptions): AnyImporter[] => {
         new AliasImporter({
             aliases: opts.aliases || {},
             aliasPrefixes: opts.aliasPrefixes || {},
+            includePaths: opts.includePaths || [],
         }),
     ];
 
