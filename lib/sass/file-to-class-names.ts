@@ -74,7 +74,12 @@ export const fileToClassNames = async (
         : null;
     const compileOpts: CommonCompileOpts = {
         loadPaths: includePaths,
-        importers: customImporters({ aliases, aliasPrefixes, importers }),
+        importers: customImporters({
+            aliases,
+            aliasPrefixes,
+            importers,
+            includePaths,
+        }),
     };
     const result = await (fileContents
         ? sass.compileStringAsync(fileContents, {
