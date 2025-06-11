@@ -339,14 +339,14 @@ CLI options will take precedence over configuration file options.
 
 In addition to all CLI options, the following are options only available with the configuration file:
 
-### `importer`
+### `importers`
 
-- **Type**: `Importer | Importer[]`
+- **Type**: `AnyImporter[]`
 - **Default**: _none_
 
-Define a [single custom SASS importer or an array of SASS importers](https://github.com/sass/sass/blob/f355f602fc15f55b0a0a795ebe6eb819963e08a5/js-api-doc/legacy/importer.d.ts#L51-L149). This should only be necessary if custom SASS importers are already being used in the build process. This is used internally to implement `aliases` and `aliasPrefixes`.
+Define [an array of custom SASS importers](https://github.com/sass/sass/blob/dae75bd941e507f0e88f53b2616fbebe0b4a6572/js-api-doc/options.d.ts#L227-L264). This should only be necessary if custom SASS importers are already being used in the build process. This is used internally to implement `aliases` and `aliasPrefixes`.
 
-Refer to [`lib/sass/importer.ts`](/blob/master/lib/sass/importer.ts) for more details and the `sass` importer type definition.
+Refer to [`lib/sass/importer.ts`](/blob/master/lib/sass/importer.ts) for more details and the [Sass importer documentation](https://sass-lang.com/documentation/js-api/interfaces/importer/).
 
 ## Examples
 
@@ -354,5 +354,5 @@ For examples of how this tool can be used and configured, see the `examples` dir
 
 - [Basic example](/examples/basic)
 - [Default export example](/examples/default-export)
-- [Config file (with custom importer) example](/examples/config-file)
+- [Config file (with custom importers) example](/examples/config-file)
 - [Output folder example](/examples/output-folder)

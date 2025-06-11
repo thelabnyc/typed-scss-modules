@@ -1,9 +1,11 @@
 import type { SASSOptions } from "../sass/index.ts";
 import type { ExportType, LogLevel, QuoteType } from "../typescript/index.ts";
 
-type CLIOnlyOptions = Extract<keyof SASSOptions, "importer">;
+type SafeOmit<T, K extends keyof T> = Omit<T, K>;
+type ConfigFileOnlyOptionKeys = "importers";
 
-export interface CLIOptions extends Exclude<SASSOptions, CLIOnlyOptions> {
+export interface CLIOptions
+    extends SafeOmit<SASSOptions, ConfigFileOnlyOptionKeys> {
     banner: string;
     ignore: string[];
     ignoreInitial: boolean;
