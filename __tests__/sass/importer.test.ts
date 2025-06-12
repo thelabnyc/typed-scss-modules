@@ -17,11 +17,11 @@ describe("#aliasImporter", () => {
             aliasPrefixes: {},
         });
 
-        expect(importer.findFileUrl("input", context)).toEqual(
-            pathToFileURL("output"),
+        expect(importer.findFileUrl("input", context)?.pathname).toEqual(
+            pathToFileURL("output").pathname,
         );
-        expect(importer.findFileUrl("~alias", context)).toEqual(
-            pathToFileURL("node_modules"),
+        expect(importer.findFileUrl("~alias", context)?.pathname).toEqual(
+            pathToFileURL("node_modules").pathname,
         );
         expect(importer.findFileUrl("output", context)).toBeNull();
         expect(importer.findFileUrl("input-substring", context)).toBeNull();
@@ -34,11 +34,11 @@ describe("#aliasImporter", () => {
             aliasPrefixes: { "~": "node_modules/", "abc": "def" },
         });
 
-        expect(importer.findFileUrl("abc-123", context)).toEqual(
-            pathToFileURL("def-123"),
+        expect(importer.findFileUrl("abc-123", context)?.pathname).toEqual(
+            pathToFileURL("def-123").pathname,
         );
-        expect(importer.findFileUrl("~package", context)).toEqual(
-            pathToFileURL("node_modules/package"),
+        expect(importer.findFileUrl("~package", context)?.pathname).toEqual(
+            pathToFileURL("node_modules/package").pathname,
         );
         expect(importer.findFileUrl("output~", context)).toBeNull();
         expect(importer.findFileUrl("input-substring-abc", context)).toBeNull();
@@ -58,11 +58,11 @@ describe("#aliasImporter", () => {
             includePaths: [includePath1, includePath2],
         });
 
-        expect(importer.findFileUrl("~variables", context)?.pathname).toContain(
-            `${includePath1}/variables.scss`,
+        expect(importer.findFileUrl("~variables", context)?.pathname).toEqual(
+            pathToFileURL(`${includePath1}/variables.scss`).pathname,
         );
-        expect(importer.findFileUrl("~mixins", context)?.pathname).toContain(
-            `${includePath2}/mixins.scss`,
+        expect(importer.findFileUrl("~mixins", context)?.pathname).toEqual(
+            pathToFileURL(`${includePath2}/mixins.scss`).pathname,
         );
 
         expect(importer.findFileUrl("@nonexistent", context)).toBeNull();
@@ -90,11 +90,11 @@ describe("#customImporters", () => {
             );
         }
 
-        expect(aliasImporter.findFileUrl("~package", context)).toEqual(
-            pathToFileURL("node_modules/package"),
-        );
-        expect(aliasImporter.findFileUrl("~alias", context)).toEqual(
-            pathToFileURL("secret/path"),
+        expect(
+            aliasImporter.findFileUrl("~package", context)?.pathname,
+        ).toEqual(pathToFileURL("node_modules/package").pathname);
+        expect(aliasImporter.findFileUrl("~alias", context)?.pathname).toEqual(
+            pathToFileURL("secret/path").pathname,
         );
         expect(aliasImporter.findFileUrl("other", context)).toBeNull();
     });
