@@ -1,5 +1,14 @@
 # Changelog
 
+## v8.2.2 (2025-06-12)
+
+### Fix
+
+- restore glob functionality in file watch mode (#9)
+- broken dependency chain under yarn with PnP (#6)
+- enhance example test cases
+- prevent URL comparison false negatives
+
 ## v8.2.1 (2025-06-11)
 
 ### Fix

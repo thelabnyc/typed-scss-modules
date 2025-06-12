@@ -1,6 +1,6 @@
 {
   "name": "@thelabnyc/typed-scss-modules",
-  "version": "8.2.1",
+  "version": "8.2.2",
   "description": "TypeScript type definition generator for SCSS CSS Modules",
   "type": "module",
   "main": "dist/lib/index.js",
