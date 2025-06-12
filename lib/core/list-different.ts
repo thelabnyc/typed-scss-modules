@@ -44,7 +44,7 @@ export const checkFile = async (
         return true;
     } catch (error) {
         alerts.error(
-            `An error occurred checking ${file}:\n${JSON.stringify(error)}`,
+            `An error occurred checking ${file}:\n${(error as Error).toString()}`,
         );
         return false;
     }
