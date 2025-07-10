@@ -55,7 +55,7 @@
     "prettier": "^3.5.3",
     "reserved-words": "^0.1.2",
     "slash": "^5.1.0",
-    "yargs": "^17.3.1"
+    "yargs": "^18.0.0"
   },
   "devDependencies": {
     "@thelabnyc/standards": "^0.4.5",
