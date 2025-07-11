@@ -61,7 +61,7 @@ describe("main", () => {
         });
 
         expect(alerts.error).not.toHaveBeenCalled();
-        expect(fs.writeFile).toHaveBeenCalledTimes(9);
+        expect(fs.writeFile).toHaveBeenCalledTimes(12);
 
         const expectedDirname = slash(path.join(__dirname, "dummy-styles"));
 
@@ -101,7 +101,7 @@ describe("main", () => {
         });
 
         expect(alerts.error).not.toHaveBeenCalled();
-        expect(fs.writeFile).toHaveBeenCalledTimes(7);
+        expect(fs.writeFile).toHaveBeenCalledTimes(10);
 
         const expectedDirname = slash(path.join(__dirname, "dummy-styles"));
 

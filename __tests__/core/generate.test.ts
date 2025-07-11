@@ -37,6 +37,6 @@ describe("generate", () => {
             allowArbitraryExtensions: false,
         });
 
-        expect(fs.writeFile).toHaveBeenCalledTimes(6);
+        expect(fs.writeFile).toHaveBeenCalledTimes(9);
     });
 });

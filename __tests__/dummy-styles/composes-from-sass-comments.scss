@@ -1,0 +1,9 @@
+.composed-class {
+    composes: final-class from "./comments-multi-line.scss";
+    color: red;
+}
+
+.another-composed-class {
+    composes: final-class from "./comments-single-line.scss";
+    font-size: 14px;
+}
