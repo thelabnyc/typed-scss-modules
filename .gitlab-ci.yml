@@ -7,7 +7,7 @@ variables:
   PRE_COMMIT_HOME: ${CI_PROJECT_DIR}/.cache/pre-commit
 
 .dev_dependency_job: &dev_dependency_job
-  image: registry.gitlab.com/thelabnyc/python:3.13.881-node22@sha256:97eb414b60ef24d2d936ef58a3b58a04f542fcb6e77ff0248d3e2db28a382e93
+  image: registry.gitlab.com/thelabnyc/python:3.13.887-node22@sha256:5223a7999be3c525e88e8558d836be03a5c776acad23f9806e578b81897958d7
   before_script:
     - npm ci
   cache:
