@@ -212,6 +212,11 @@ describe("fileToClassNames", () => {
         });
     });
 
+    const base = path.resolve(
+        path.dirname(new URL(import.meta.url).pathname),
+        "../dummy-styles",
+    );
+
     describe("composes", () => {
         it("converts a file that contains a composes dependency from another file", async () => {
             const result = await fileToClassNames(
@@ -220,6 +225,19 @@ describe("fileToClassNames", () => {
             );
 
             expect(result).toEqual(["composedClass"]);
+        });
+
+        it("converts a file even if the file being composed from contains scss", async () => {
+            const result = await fileToClassNames(
+                `${base}/composes-from-sass.scss`,
+                {},
+            );
+
+            expect(result).toEqual([
+                "anotherComposedClass",
+                "composedClass",
+                "onlyComposes",
+            ]);
         });
     });
 
@@ -233,6 +251,33 @@ describe("fileToClassNames", () => {
             );
 
             expect(result).toEqual(["globalStyle"]);
+        });
+    });
+    describe("SASS comments", () => {
+        it("ignores // comments", async () => {
+            const result = await fileToClassNames(
+                `${base}/comments-single-line.scss`,
+            );
+            expect(result).toEqual([
+                "anotherClass",
+                "commentedClass",
+                "finalClass",
+                "mixinUser",
+                "thirdClass",
+            ]);
+        });
+
+        it("ignores /* */ comments", async () => {
+            const result = await fileToClassNames(
+                `${base}/comments-multi-line.scss`,
+            );
+            expect(result).toEqual([
+                "anotherClass",
+                "commentedClass",
+                "finalClass",
+                "mixinUser",
+                "thirdClass",
+            ]);
         });
     });
 });

@@ -7,3 +7,7 @@
     composes: final-class from "./comments-single-line.scss";
     font-size: 14px;
 }
+
+.only-composes {
+    composes: final-class from "./comments-single-line.scss";
+}

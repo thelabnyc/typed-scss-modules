@@ -10,6 +10,14 @@ export const sourceToClassNames = async (
 ) => {
     let result: Record<string, string> = {};
     await postcss([
+        {
+            postcssPlugin: "custom-strip-composes",
+            Declaration(decl, _helper) {
+                if (decl.prop == "composes") {
+                    decl.remove();
+                }
+            },
+        },
         PostcssModulesPlugin({
             getJSON: (_, json) => {
                 result = json;
