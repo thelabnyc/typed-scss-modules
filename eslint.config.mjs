@@ -17,6 +17,7 @@ export default getTSConfig({
         {
             ignores: [
                 "dist/**/*",
+                "coverage/**/*",
                 "prettier.config.js",
                 "__tests__/configs/js-default-export/typed-scss-modules.config.js",
                 "__tests__/configs/js-module-exports/typed-scss-modules.config.cjs",

@@ -1,0 +1,107 @@
+@use "sass:math";
+
+/* This is a multi-line comment at the very beginning of the file
+   It spans multiple lines and has various indentations
+   Testing comment parsing everywhere */
+
+/*
+ * Comment before first selector
+ * with different indentation
+ */
+.commented-class {
+    /* Comment before first declaration */
+    color: blue; /* Comment after declaration */
+    /*
+   * Comment between declarations
+   * spanning multiple lines
+   */
+    font-size: 16px; /* Another inline comment */
+    /* Comment before nested selector */
+    &:hover {
+        /* Comment inside nested selector
+       with line break */
+        background: red; /* Comment after nested declaration */
+    } /* Comment after closing brace of nested selector */
+} /* Comment after closing brace of main selector */
+
+/*
+Comment between selectors
+    with weird indentation
+        and multiple lines
+*/
+
+.another-class, /* Comment in middle of selector list */
+.third-class {
+    /* Comment after selector list */
+    /* Comment at start of rule block */
+    margin: 10px; /* Comment after margin */
+    /*
+   * Comment before padding
+   * with proper indentation
+   */
+    padding: 20px;
+    /* Comment before another rule */
+
+    /*
+   * Comment with empty line above
+   * and multiple lines
+   */
+    border: 1px solid black; /* Final comment in this block */
+} /* Comment after closing brace */
+
+/*
+ * Comment before mixin definition
+ * explaining the mixin purpose
+ */
+@mixin my-mixin($param) {
+    /* Comment after mixin declaration */
+    /* Comment inside mixin */
+    display: flex; /* Comment in mixin */
+} /* Comment after mixin closing brace */
+
+/*
+Comment before class using mixin
+    oddly indented
+*/
+.mixin-user {
+    /* Comment before include */
+    @include my-mixin(value); /* Comment after include */
+} /* Comment after class */
+
+/* Comment before variable declaration */
+$primary-color: #007bff; /* Comment after variable */
+$secondary-color: #6c757d; /* Another variable comment */
+
+/*
+ * Comment before function
+ * This function converts px to rem
+ */
+@function calculate-rem($px) {
+    /* Comment after function declaration */
+    /*
+   * Comment inside function
+   * explaining the calculation
+   */
+    @return math.div($px, 16px) * 1rem; /* Comment after return */
+} /* Comment after function closing brace */
+
+/*
+Final selector comment
+    with odd spacing
+        and indentation
+*/
+.final-class {
+    /* Comment before using function */
+    font-size: calculate-rem(18px); /* Comment after function usage */
+    /*
+   * Comment before using variable
+   * spanning multiple lines
+   */
+    color: $primary-color; /* Comment after variable usage */
+} /* Final comment after closing brace */
+
+/*
+ * Comment at the very end of file
+ * with multiple lines
+ * and proper closing
+ */
