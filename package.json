@@ -36,7 +36,8 @@
     "build": "npm run clean && tsc && chmod +x dist/lib/cli.js",
     "check:types": "tsc --noEmit",
     "check:lint": "eslint .",
-    "check": "npm run check:types && npm run check:lint"
+    "check": "npm run check:types && npm run check:lint",
+    "format": "prettier . --write"
   },
   "peerDependencies": {
     "sass": "^1.89.0"
