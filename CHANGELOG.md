@@ -1,5 +1,12 @@
 # Changelog
 
+## v8.2.3-b0 (2025-08-27)
+
+### Fix
+
+- #10 do not error when input files compose from files that use sass
+- **deps**: update dependency yargs to v18
+
 ## v8.2.2 (2025-06-12)
 
 ### Fix
