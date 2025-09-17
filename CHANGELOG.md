@@ -1,5 +1,11 @@
 # Changelog
 
+## v8.2.4 (2025-09-17)
+
+### Fix
+
+- fix npm pkg format warnings
+
 ## v8.2.4-b1 (2025-09-17)
 
 ### Fix
