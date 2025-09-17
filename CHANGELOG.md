@@ -1,5 +1,11 @@
 # Changelog
 
+## v8.2.4-b1 (2025-09-17)
+
+### Fix
+
+- update package-lock.json for node 24
+
 ## v8.2.4-b0 (2025-09-17)
 
 ## v8.2.3 (2025-08-27)
