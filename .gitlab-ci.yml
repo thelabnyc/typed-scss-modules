@@ -5,6 +5,11 @@ stages:
 variables:
   NODE_ENV: development
   PRE_COMMIT_HOME: ${CI_PROJECT_DIR}/.cache/pre-commit
+  # We have to disable sigstore for now since NPM currently only supports
+  # provenance when publishing from a gitlab-hosted runner. Hopefully we can
+  # enable this in the future once they drop this limitation (which should be
+  # possible since PyPI has no such limitation on their use of sigstore).
+  NPM_CONFIG_PROVENANCE: "false"
 
 .dev_dependency_job: &dev_dependency_job
   image: node:24@sha256:82a1d74c5988b72e839ac01c5bf0f7879a8ffd14ae40d7008016bca6ae12852b
