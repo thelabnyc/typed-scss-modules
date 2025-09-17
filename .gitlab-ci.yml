@@ -7,7 +7,7 @@ variables:
   PRE_COMMIT_HOME: ${CI_PROJECT_DIR}/.cache/pre-commit
 
 .dev_dependency_job: &dev_dependency_job
-  image: registry.gitlab.com/thelabnyc/python:3.13.961-node22@sha256:590f17c5ed4b29f3ef9049727e54c150161b676bda249630f7a5731608a28c0c
+  image: node:24@sha256:82a1d74c5988b72e839ac01c5bf0f7879a8ffd14ae40d7008016bca6ae12852b
   before_script:
     - npm ci
   cache:
@@ -15,17 +15,12 @@ variables:
     paths:
       - node_modules
 
-.release_job: &release_job
-  rules:
-    - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true"
-  stage: release
-  needs:
-    - test
-
 include:
-  - component: gitlab.com/thelabnyc/thelab-ci-components/precommit@0.4.0
+  - component: gitlab.com/thelabnyc/thelab-ci-components/precommit@0.5.0
     inputs:
-      image: registry.gitlab.com/thelabnyc/python:3.13.709-node22@sha256:fd5f8497e1c70742da9f99ead45d99c5b17f59a48905c364cb05dca25a3f8def
+      image: registry.gitlab.com/thelabnyc/python:3.13.960-node24@sha256:9cb82ee53bc8ad2d7fea12d10f6e3583b6a0924dbaab4bb51b52605396017475
+  - component: gitlab.com/thelabnyc/thelab-ci-components/publish-gitlab-release@0.5.0
+  - component: gitlab.com/thelabnyc/thelab-ci-components/publish-to-npm@0.5.0
 
 test:
   <<: *dev_dependency_job
@@ -35,29 +30,3 @@ test:
     - npm run check
     - npm run build
     - npm run test
-
-release:pkg-npm:
-  <<: *dev_dependency_job
-  <<: *release_job
-  script:
-    - echo "//registry.npmjs.org/:_authToken=${NPM_PUBLISH_TOKEN}" > .npmrc
-    - npm publish --access public
-
-release:pkg-gitlab:
-  <<: *dev_dependency_job
-  <<: *release_job
-  script:
-    - echo "@thelabnyc:registry=https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
-    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
-    - npm publish
-
-release:gitlab:
-  <<: *release_job
-  image: registry.gitlab.com/gitlab-org/release-cli:latest@sha256:3f52d526f48e8d10625c722fa6d6423ee82aadeae1b1aa91f07b62551d96dacf
-  script:
-    - echo 'noop'
-  release:
-    name: "Release $CI_COMMIT_TAG"
-    description: "Release $CI_COMMIT_TAG. Tagged by $GITLAB_USER_LOGIN"
-    tag_name: "$CI_COMMIT_TAG"
-    ref: "$CI_COMMIT_TAG"
