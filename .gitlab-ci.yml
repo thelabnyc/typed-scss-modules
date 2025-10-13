@@ -12,7 +12,7 @@ variables:
   NPM_CONFIG_PROVENANCE: "false"
 
 .dev_dependency_job: &dev_dependency_job
-  image: node:24@sha256:5c3322ad1722c99e2f40fe5f7996eedeac9cbe870a519cf771082edb85a25ee5
+  image: node:24@sha256:377f1c17906eb5a145c34000247faa486bece16386b77eedd5a236335025c2ef
   before_script:
     - npm ci
   cache:
