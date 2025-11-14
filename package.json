@@ -61,7 +61,7 @@
     "yargs": "^18.0.0"
   },
   "devDependencies": {
-    "@thelabnyc/standards": "^0.4.5",
+    "@thelabnyc/standards": "^0.5.0",
     "@tsconfig/node20": "^20.1.5",
     "@types/jest": "^30.0.0",
     "@types/node": "^22.15.24",
