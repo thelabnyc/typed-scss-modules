@@ -12,7 +12,7 @@ variables:
   NPM_CONFIG_PROVENANCE: "false"
 
 .dev_dependency_job: &dev_dependency_job
-  image: node:24@sha256:e5bbac0e9b8a6e3b96a86a82bbbcf4c533a879694fd613ed616bae5116f6f243
+  image: node:24@sha256:aa648b387728c25f81ff811799bbf8de39df66d7e2d9b3ab55cc6300cb9175d9
   before_script:
     - npm ci
   cache:
@@ -21,11 +21,11 @@ variables:
       - node_modules
 
 include:
-  - component: gitlab.com/thelabnyc/thelab-ci-components/precommit@0.5.1
+  - component: gitlab.com/thelabnyc/thelab-ci-components/precommit@0.5.2
     inputs:
-      image: registry.gitlab.com/thelabnyc/python:3.13.960-node24@sha256:9cb82ee53bc8ad2d7fea12d10f6e3583b6a0924dbaab4bb51b52605396017475
-  - component: gitlab.com/thelabnyc/thelab-ci-components/publish-gitlab-release@0.5.1
-  - component: gitlab.com/thelabnyc/thelab-ci-components/publish-to-npm@0.5.1
+      image: registry.gitlab.com/thelabnyc/python:3.13.1117-node24@sha256:5e62d4d4a895c4562210538ff6cc702a60e058693335cfa8d5ee045fff9c1e7a
+  - component: gitlab.com/thelabnyc/thelab-ci-components/publish-gitlab-release@0.5.2
+  - component: gitlab.com/thelabnyc/thelab-ci-components/publish-to-npm@0.5.2
 
 test:
   <<: *dev_dependency_job
