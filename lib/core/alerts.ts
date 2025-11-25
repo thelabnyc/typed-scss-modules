@@ -13,9 +13,7 @@ export const setAlertsLogLevel = (logLevel: LogLevel) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type CbFunc = (...args: any[]) => void;
-type WrappedCbFunc<T extends CbFunc> = (
-    ...args: Parameters<T>
-) => ReturnType<T> | void;
+type WrappedCbFunc<T extends CbFunc> = (...args: Parameters<T>) => void;
 /**
  * wraps a callback and only calls it if currentLogLevel is undefined or included in permittedLogLevels
  * @param permittedLogLevels list of log levels. callbacks will only be called if current log level is listed here
@@ -26,7 +24,7 @@ const withLogLevelsRestriction =
         permittedLogLevels: LogLevel[],
         cb: T,
     ): WrappedCbFunc<T> =>
-    (...args: Parameters<T>): ReturnType<T> | void => {
+    (...args: Parameters<T>): void => {
         const shouldCall =
             !currentLogLevel || permittedLogLevels.includes(currentLogLevel);
 
