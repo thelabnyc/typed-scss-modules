@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "@thelabnyc/standards": "^0.5.0",
-    "@tsconfig/node20": "^20.1.5",
+    "@tsconfig/node24": "^24.0.3",
     "@types/jest": "^30.0.0",
     "@types/node": "^22.15.24",
     "@types/reserved-words": "^0.1.4",
