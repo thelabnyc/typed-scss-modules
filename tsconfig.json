@@ -3,9 +3,10 @@
     "compilerOptions": {
         "isolatedModules": true,
         "rewriteRelativeImportExtensions": true,
-        "baseUrl": ".",
         "declaration": true,
         "outDir": "./dist",
-        "rootDirs": [".", "examples/output-folder/__generated__"]
+        "rootDir": ".",
+        "rootDirs": [".", "examples/output-folder/__generated__"],
+        "types": ["jest", "node"]
     }
 }
