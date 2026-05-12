@@ -56,7 +56,7 @@ export const fileToClassNames = async (
         aliases = {},
         aliasPrefixes = {},
         importers,
-    }: SASSOptions = {} as SASSOptions,
+    }: SASSOptions = {},
 ) => {
     const nameFormat = (
         typeof rawNameFormat === "string" ? [rawNameFormat] : rawNameFormat
