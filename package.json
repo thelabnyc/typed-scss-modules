@@ -8,7 +8,7 @@
   "author": "Spencer Miskoviak <smiskoviak@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=22.12"
+    "node": ">=22.22"
   },
   "repository": {
     "type": "git",

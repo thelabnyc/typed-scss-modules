@@ -140,6 +140,9 @@ export const watch = async (
             removeSCSSTypeDefinitionFile(filePath, options).catch((err) => {
                 console.error(err);
             });
+        })
+        .on("error", (err) => {
+            alerts.error(`[WATCH ERROR] ${String(err)}`);
         });
 
     return watcher;
